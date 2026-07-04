@@ -19,29 +19,29 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            height: 100vh;
-            overflow: hidden;
+            min-height: 100vh;
+            padding: 20px;
             text-align: center;
         }
         
         /* Container Card */
         .card {
             background: rgba(255, 255, 255, 0.03);
-            padding: 40px 30px;
+            padding: 30px 20px;
             border-radius: 20px;
             box-shadow: 0 15px 35px rgba(0, 0, 0, 0.5);
             backdrop-filter: blur(10px);
             border: 1px solid rgba(255, 255, 255, 0.1);
-            max-width: 92%;
-            width: 480px;
+            max-width: 100%;
+            width: 420px;
             transition: all 0.5s ease-in-out;
             animation: fadeIn 0.8s ease-in-out;
         }
 
         /* Message text styling */
         h1 {
-            font-size: 2.2rem;
-            margin-bottom: 30px;
+            font-size: 1.8rem;
+            margin-bottom: 25px;
             font-weight: 700;
             line-height: 1.4;
             text-shadow: 0 0 10px rgba(0, 255, 204, 0.6);
@@ -56,19 +56,19 @@
 
         /* Shayari Screen 3 Styling */
         .screen-3 h1 {
-            font-size: 1.5rem;
+            font-size: 1.25rem;
             color: #ff9900;
             text-shadow: 0 0 10px rgba(255, 153, 0, 0.5);
-            line-height: 1.8;
+            line-height: 1.6;
             font-style: italic;
         }
 
         /* Heavy Shayari Screen 4 Styling */
         .screen-4 h1 {
-            font-size: 1.35rem;
-            color: #ff3333; /* Dark Angry Red Glow */
+            font-size: 1.15rem;
+            color: #ff3333; 
             text-shadow: 0 0 12px rgba(255, 51, 51, 0.6);
-            line-height: 1.8;
+            line-height: 1.6;
             font-weight: 600;
         }
 
@@ -77,14 +77,16 @@
             background: linear-gradient(45deg, #00ffcc, #0099ff);
             color: #000;
             border: none;
-            padding: 12px 35px;
-            font-size: 1.1rem;
+            padding: 10px 30px;
+            font-size: 1rem;
             font-weight: bold;
             border-radius: 50px;
             cursor: pointer;
             box-shadow: 0 5px 15px rgba(0, 255, 204, 0.4);
             transition: all 0.3s ease;
             outline: none;
+            margin-top: 15px;
+            display: inline-block;
         }
 
         .screen-2 .btn {
@@ -98,12 +100,8 @@
         }
 
         .btn:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 8px 25px rgba(0, 255, 204, 0.7);
+            transform: translateY(-2px);
         }
-
-        .screen-2 .btn:hover { box-shadow: 0 8px 25px rgba(255, 51, 102, 0.7); }
-        .screen-3 .btn:hover { box-shadow: 0 8px 25px rgba(255, 153, 0, 0.7); }
 
         .btn:active {
             transform: translateY(1px);
@@ -140,7 +138,7 @@
             Main Uske Baare Mein Kehta Tha Logo Se,<br>
             Mera Naam Badal Dena Wo Sakhs Agar Badla." 💔
         </h1>
-        <button style="margin-top: 25px;" class="btn" onclick="showScreen(4)">Next</button>
+        <button class="btn" onclick="showScreen(4)">Next</button>
     </div>
 
     <div id="screen4" class="card screen-4 hidden">
@@ -153,15 +151,12 @@
     </div>
 
     <script>
-        // Yeh function ab saari screens ko bilkul sahi tarike se control karega
         function showScreen(screenNumber) {
-            // Pehle saari screens ko chhupao
             document.getElementById('screen1').classList.add('hidden');
             document.getElementById('screen2').classList.add('hidden');
             document.getElementById('screen3').classList.add('hidden');
             document.getElementById('screen4').classList.add('hidden');
             
-            // Fir jo screen chahiye use show karo
             document.getElementById('screen' + screenNumber).classList.remove('hidden');
         }
     </script>
