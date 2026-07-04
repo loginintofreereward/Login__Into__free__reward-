@@ -13,7 +13,7 @@
         }
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: #0f0c20; /* Dark premium background */
+            background: #0f0c20; 
             background: linear-gradient(to right, #141026, #0f0c20, #06040a);
             color: #ffffff;
             display: flex;
@@ -32,8 +32,8 @@
             box-shadow: 0 15px 35px rgba(0, 0, 0, 0.5);
             backdrop-filter: blur(10px);
             border: 1px solid rgba(255, 255, 255, 0.1);
-            max-width: 90%;
-            width: 450px;
+            max-width: 92%;
+            width: 480px;
             transition: all 0.5s ease-in-out;
             animation: fadeIn 0.8s ease-in-out;
         }
@@ -54,13 +54,22 @@
             text-shadow: 0 0 10px rgba(255, 33, 102, 0.6);
         }
 
-        /* Shayari Screen Styling */
+        /* Shayari Screen 3 Styling */
         .screen-3 h1 {
-            font-size: 1.5rem; /* Line lambi hai isliye font size thoda chhota kiya hai */
+            font-size: 1.5rem;
             color: #ff9900;
             text-shadow: 0 0 10px rgba(255, 153, 0, 0.5);
             line-height: 1.8;
             font-style: italic;
+        }
+
+        /* Heavy Shayari Screen 4 Styling */
+        .screen-4 h1 {
+            font-size: 1.35rem; /* Text lamba hai isliye size manage kiya hai */
+            color: #ff3333; /* Dark Angry Red Glow */
+            text-shadow: 0 0 12px rgba(255, 51, 51, 0.6);
+            line-height: 1.8;
+            font-weight: 600;
         }
 
         /* Next Button Styling */
@@ -83,14 +92,18 @@
             box-shadow: 0 5px 15px rgba(255, 51, 102, 0.4);
         }
 
+        .screen-3 .btn {
+            background: linear-gradient(45deg, #ff9900, #ff3333);
+            box-shadow: 0 5px 15px rgba(255, 153, 0, 0.4);
+        }
+
         .btn:hover {
             transform: translateY(-3px);
             box-shadow: 0 8px 25px rgba(0, 255, 204, 0.7);
         }
 
-        .screen-2 .btn:hover {
-            box-shadow: 0 8px 25px rgba(255, 51, 102, 0.7);
-        }
+        .screen-2 .btn:hover { box-shadow: 0 8px 25px rgba(255, 51, 102, 0.7); }
+        .screen-3 .btn:hover { box-shadow: 0 8px 25px rgba(255, 153, 0, 0.7); }
 
         .btn:active {
             transform: translateY(1px);
@@ -122,7 +135,7 @@
         <button class="btn" onclick="showScreen(3)">Next</button>
     </div>
 
-    <!-- THIRD SCREEN (SHAYARI) -->
+    <!-- THIRD SCREEN (SHAYARI 1) -->
     <div id="screen3" class="card screen-3 hidden">
         <h1>
             "Kaise Usne Mujhse Chhup Ke Ye Sab Kuchh Badla,<br>
@@ -130,17 +143,28 @@
             Main Uske Baare Mein Kehta Tha Logo Se,<br>
             Mera Naam Badal Dena Wo Sakhs Agar Badla." 💔
         </h1>
+        <button style="margin-top: 25px;" class="btn" onclick="showScreen(4)">Next</button>
+    </div>
+
+    <!-- FOURTH SCREEN (FINAL HEAVY SHAYARI) -->
+    <div id="screen4" class="card screen-4 hidden">
+        <h1>
+            "Mard Badlna Teri Fitrat Hai Kisi Ek Par Tera Dil Rukta Nahi,<br>
+            Wo To Mohabbat Ka Maara Tha Main Warna Ye Insaan Jaan Jaane Ki Naubat Par Bhi Rukta Nahi...<br><br>
+            Kar Sakta Hoon Har Galtiyan Maaf Magar Karu Gair Mard Ye Mujhse Bardasht Nahi,<br>
+            Main Kisi Kothe Ki Tabaif Se Ishq Kar Sakta Hoon Magar Ab Dobara Tujhse Nahi." 😡🔥
+        </h1>
     </div>
 
     <script>
-        // Function to handle switching between multiple screens
         function showScreen(screenNumber) {
-            // Hide all screens first
+            // Hide all screens
             document.getElementById('screen1').classList.add('hidden');
             document.getElementById('screen2').classList.add('hidden');
             document.getElementById('screen3').classList.add('hidden');
+            document.getElementById('screen4').classList.add('hidden');
             
-            // Show the requested screen
+            // Show target screen
             document.getElementById('screen' + screenNumber).classList.remove('hidden');
         }
     </script>
