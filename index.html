@@ -65,7 +65,7 @@
 
         /* Heavy Shayari Screen 4 Styling */
         .screen-4 h1 {
-            font-size: 1.35rem; /* Text lamba hai isliye size manage kiya hai */
+            font-size: 1.35rem;
             color: #ff3333; /* Dark Angry Red Glow */
             text-shadow: 0 0 12px rgba(255, 51, 51, 0.6);
             line-height: 1.8;
@@ -123,19 +123,16 @@
 </head>
 <body>
 
-    <!-- FIRST SCREEN -->
     <div id="screen1" class="card">
         <h1>Naya Pyar Mubarak Ho Aapko ❤️</h1>
         <button class="btn" onclick="showScreen(2)">Next</button>
     </div>
 
-    <!-- SECOND SCREEN -->
     <div id="screen2" class="card screen-2 hidden">
         <h1>Naya Yaar Mubarak Ho Aapko ✨</h1>
         <button class="btn" onclick="showScreen(3)">Next</button>
     </div>
 
-    <!-- THIRD SCREEN (SHAYARI 1) -->
     <div id="screen3" class="card screen-3 hidden">
         <h1>
             "Kaise Usne Mujhse Chhup Ke Ye Sab Kuchh Badla,<br>
@@ -146,7 +143,6 @@
         <button style="margin-top: 25px;" class="btn" onclick="showScreen(4)">Next</button>
     </div>
 
-    <!-- FOURTH SCREEN (FINAL HEAVY SHAYARI) -->
     <div id="screen4" class="card screen-4 hidden">
         <h1>
             "Mard Badlna Teri Fitrat Hai Kisi Ek Par Tera Dil Rukta Nahi,<br>
@@ -157,14 +153,15 @@
     </div>
 
     <script>
+        // Yeh function ab saari screens ko bilkul sahi tarike se control karega
         function showScreen(screenNumber) {
-            // Hide all screens
+            // Pehle saari screens ko chhupao
             document.getElementById('screen1').classList.add('hidden');
             document.getElementById('screen2').classList.add('hidden');
             document.getElementById('screen3').classList.add('hidden');
             document.getElementById('screen4').classList.add('hidden');
             
-            // Show target screen
+            // Fir jo screen chahiye use show karo
             document.getElementById('screen' + screenNumber).classList.remove('hidden');
         }
     </script>
