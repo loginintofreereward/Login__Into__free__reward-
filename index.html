@@ -115,7 +115,6 @@
             gap: 10px;
         }
 
-        /* See Memories Button Styling */
         .btn-memories {
             background: linear-gradient(45deg, #00ffcc, #ff3366);
             color: #fff;
@@ -165,6 +164,7 @@
             overflow: hidden;
             border: 1px solid rgba(255, 255, 255, 0.1);
             transition: transform 0.3s ease;
+            cursor: pointer; /* Tap cursor indicators */
         }
         .media-box:hover {
             transform: scale(1.05);
@@ -181,6 +181,51 @@
         .gallery-card::-webkit-scrollbar-track { background: rgba(0,0,0,0.1); }
         .gallery-card::-webkit-scrollbar-thumb { background: #00ffcc; border-radius: 10px; }
 
+        /* 📱 FULLSCREEN MODAL SYSTEM CSS */
+        .fullscreen-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.9);
+            z-index: 9999;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.4s ease;
+        }
+        .fullscreen-overlay.active {
+            opacity: 1;
+            pointer-events: auto;
+        }
+        .fullscreen-overlay img {
+            max-width: 90%;
+            max-height: 85vh;
+            border-radius: 10px;
+            box-shadow: 0 0 30px rgba(0, 255, 204, 0.3);
+            transform: scale(0.9);
+            transition: transform 0.4s ease;
+        }
+        .fullscreen-overlay.active img {
+            transform: scale(1);
+        }
+        .close-overlay {
+            position: absolute;
+            top: 20px;
+            right: 25px;
+            font-size: 35px;
+            color: #fff;
+            cursor: pointer;
+            text-shadow: 0 0 10px rgba(0,0,0,0.8);
+            transition: color 0.3s;
+        }
+        .close-overlay:hover {
+            color: #ff3366;
+        }
+
         @keyframes fall { to { transform: translateY(105vh) rotate(360deg); } }
         @keyframes spin { 0 { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
         @keyframes fadeIn { from { opacity: 0; transform: scale(0.95); } to { opacity: 1; transform: scale(1); } }
@@ -192,6 +237,12 @@
     <audio id="bgMusic" loop>
         <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-4.mp3" type="audio/mpeg">
     </audio>
+
+    <!-- 📱 FULLSCREEN OVERLAY HTML -->
+    <div id="fullscreenOverlay" class="fullscreen-overlay" onclick="closeImage()">
+        <span class="close-overlay" onclick="closeImage()">&times;</span>
+        <img id="fullscreenImg" src="" alt="Full View">
+    </div>
 
     <!-- LOCK SCREEN -->
     <div id="lockScreen" class="card">
@@ -232,40 +283,51 @@
         <button class="btn" onclick="showScreen(5)">Next</button>
     </div>
 
-    <!-- FIFTH SCREEN (EMAIL SEND PAGE WITH NEW BUTTON) -->
+    <!-- FIFTH SCREEN -->
     <div id="screen5" class="card screen-5 hidden">
         <h1>"Kuchh Baatein Batati Jaa,<br>Apne Naye Yaar Kaa Naam Batati Jaa..." ✍️</h1>
         <textarea id="messageField" class="text-input" placeholder="Yahan apna reply likhein..." rows="5"></textarea>
         <br>
-        <!-- Send Button -->
         <button class="btn btn-main" id="sendBtn" onclick="sendEmail()">
             <div id="btnSpinner" class="spinner"></div>
             <span id="btnText">Send Message</span>
         </button>
         <br>
-        <!-- New Memories Button -->
         <button class="btn btn-memories" onclick="showScreen(6)">See Memories 📸</button>
     </div>
 
-    <!-- 🖼️ SIXTH SCREEN (YOUR REAL MEMORIES GALLERY) -->
+    <!-- 🖼️ SIXTH SCREEN (TOTAL 8 ITEMS WITH ONCLICK EVENT) -->
     <div id="screen6" class="card gallery-card hidden">
         <h1>📸 Kuch Purani Yaadein... 💔</h1>
         <div class="grid-container">
             
-            <div class="media-box">
-                <img src="Snapchat-835975180.jpg" alt="Memory 1">
+            <!-- PEHLE WALE 4 ITEMS -->
+            <div class="media-box" onclick="openImage('Snapchat-835975180.jpg')">
+                <img src="Snapchat-835975180.jpg" alt="Memory">
             </div>
-            
-            <div class="media-box">
-                <img src="Snapchat-270553057.png" alt="Memory 2">
+            <div class="media-box" onclick="openImage('Snapchat-270553057.png')">
+                <img src="Snapchat-270553057.png" alt="Memory">
             </div>
-
-            <div class="media-box">
-                <img src="IMG_20241128_085148.jpg" alt="Memory 3">
+            <div class="media-box" onclick="openImage('IMG_20241128_085148.jpg')">
+                <img src="IMG_20241128_085148.jpg" alt="Memory">
             </div>
-
             <div class="media-box">
+                <!-- Video full-screen nahi hogi kyunki isme video players ke apne controls hote hain -->
                 <video src="VID-20241026-WA0001.mp4" controls></video>
+            </div>
+
+            <!-- NAYE WALE 4 ITEMS -->
+            <div class="media-box" onclick="openImage('Screenshot_20260506_234638.jpg')">
+                <img src="Screenshot_20260506_234638.jpg" alt="Memory">
+            </div>
+            <div class="media-box" onclick="openImage('1777379624857.png')">
+                <img src="1777379624857.png" alt="Memory">
+            </div>
+            <div class="media-box" onclick="openImage('IMG_20251022_150409.jpg')">
+                <img src="IMG_20251022_150409.jpg" alt="Memory">
+            </div>
+            <div class="media-box" onclick="openImage('Screenshot_2025-04-02-23-45-52-859_com.instagram.android.jpg')">
+                <img src="Screenshot_2025-04-02-23-45-52-859_com.instagram.android.jpg" alt="Memory">
             </div>
 
         </div>
@@ -273,6 +335,19 @@
 
     <script>
         let heartInterval;
+
+        // 🖼️ FULLSCREEN FUNCTIONS
+        function openImage(src) {
+            const overlay = document.getElementById('fullscreenOverlay');
+            const fullImg = document.getElementById('fullscreenImg');
+            fullImg.src = src;
+            overlay.classList.add('active');
+        }
+
+        function closeImage() {
+            const overlay = document.getElementById('fullscreenOverlay');
+            overlay.classList.remove('active');
+        }
 
         function checkPassword() {
             const enteredPassword = document.getElementById('passwordField').value;
@@ -350,10 +425,7 @@
                    sendBtn.style.opacity = "1";
                    btnSpinner.style.display = "none";
                    btnText.innerText = "Send Message";
-
                    alert('Message successfully bhej diya gaya hai! ✔️');
-                   
-                   // 🛑 AUTO-OPEN REMOVED: Ab message send hone par yahin rukega, gallery open nahi hogi automatic.
                 }, function(error) {
                    sendBtn.style.pointerEvents = "auto";
                    sendBtn.style.opacity = "1";
