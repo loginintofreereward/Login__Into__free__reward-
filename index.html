@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Special Message</title>
     
-    <!-- EmailJS SDK -->
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
     <script type="text/javascript">
         (function(){
@@ -33,10 +32,10 @@
             padding: 20px;
             text-align: center;
             position: relative;
-            overflow: hidden; /* Loading aur lock screen ke waqt scroll stop rahega */
+            overflow: hidden;
         }
 
-        /* ⏳ PRELOADER / LOADING SCREEN CSS */
+        /* ⏳ SITE MAIN PRELOADER */
         #preloader {
             position: fixed;
             top: 0;
@@ -51,6 +50,29 @@
             align-items: center;
             transition: opacity 0.6s ease, pointer-events 0.6s ease;
         }
+
+        /* 📸 MEMORIES SPECIFIC PRELOADER */
+        #memoriesLoader {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(9, 7, 20, 0.95);
+            z-index: 99998;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.5s ease;
+        }
+        #memoriesLoader.active {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
         .main-loader {
             width: 50px;
             height: 50px;
@@ -61,6 +83,13 @@
             box-shadow: 0 0 15px rgba(0, 255, 204, 0.3);
             margin-bottom: 20px;
         }
+
+        /* Reddish glowing loader especially for memories */
+        .memory-loader-circle {
+            border-top: 4px solid #ff3366;
+            box-shadow: 0 0 15px rgba(255, 33, 102, 0.4);
+        }
+
         .loading-text {
             font-size: 1.1rem;
             color: #aaa;
@@ -122,365 +151,4 @@
             border-color: rgba(255, 153, 0, 0.3);
         }
 
-        .pass-input:focus { border-color: #00ffcc; box-shadow: 0 0 10px rgba(0, 255, 204, 0.5); }
-        .text-input:focus { border-color: #ff9900; box-shadow: 0 0 10px rgba(255, 153, 0, 0.5); }
-
-        .screen-2 h1 { color: #ff3366; text-shadow: 0 0 10px rgba(255, 33, 102, 0.6); }
-        .screen-3 h1 { font-size: 1.25rem; color: #ff9900; text-shadow: 0 0 10px rgba(255, 153, 0, 0.5); line-height: 1.6; font-style: italic; }
-        .screen-4 h1 { font-size: 1.15rem; color: #ff3333; text-shadow: 0 0 12px rgba(255, 51, 51, 0.6); line-height: 1.6; font-weight: 600; }
-        .screen-5 h1 { color: #ff9900; text-shadow: 0 0 10px rgba(255, 153, 0, 0.5); font-size: 1.5rem; }
-        .screen-6 h1 { color: #00ffcc; margin-bottom: 20px; }
-
-        .btn {
-            background: linear-gradient(45deg, #00ffcc, #0099ff);
-            color: #000;
-            border: none;
-            padding: 12px 35px;
-            font-size: 1rem;
-            font-weight: bold;
-            border-radius: 50px;
-            cursor: pointer;
-            box-shadow: 0 5px 15px rgba(0, 255, 204, 0.4);
-            transition: all 0.3s ease;
-            outline: none;
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            gap: 10px;
-        }
-
-        .btn-memories {
-            background: linear-gradient(45deg, #00ffcc, #ff3366);
-            color: #fff;
-            margin-top: 15px;
-            box-shadow: 0 5px 15px rgba(255, 51, 102, 0.3);
-        }
-
-        .screen-2 .btn { background: linear-gradient(45deg, #ff3366, #ff9900); box-shadow: 0 5px 15px rgba(255, 51, 102, 0.4); }
-        .screen-3 .btn { background: linear-gradient(45deg, #ff9900, #ff3333); box-shadow: 0 5px 15px rgba(255, 153, 0, 0.4); }
-        .screen-4 .btn { background: linear-gradient(45deg, #ff3333, #ff9900); box-shadow: 0 5px 15px rgba(255, 51, 51, 0.4); }
-        .screen-5 .btn-main { background: linear-gradient(45deg, #ff9900, #00ffcc); box-shadow: 0 5px 15px rgba(255, 153, 0, 0.4); }
-
-        .btn:hover { transform: translateY(-2px); }
-        .btn:active { transform: translateY(1px); }
-        .hidden { display: none !important; }
-
-        .spinner {
-            width: 18px;
-            height: 18px;
-            border: 3px solid rgba(0, 0, 0, 0.2);
-            border-top: 3px solid #000;
-            border-radius: 50%;
-            animation: spin 0.8s linear infinite;
-            display: none;
-        }
-
-        .heart-fall {
-            position: absolute;
-            top: -20px;
-            font-size: 24px;
-            user-select: none;
-            pointer-events: none;
-            z-index: 1;
-            animation: fall linear forwards;
-        }
-
-        .grid-container {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
-            gap: 15px;
-            margin-top: 15px;
-        }
-
-        .media-box {
-            background: rgba(0,0,0,0.3);
-            border-radius: 12px;
-            overflow: hidden;
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            transition: transform 0.3s ease;
-            cursor: pointer;
-        }
-        .media-box:hover {
-            transform: scale(1.05);
-            border-color: #00ffcc;
-        }
-        .media-box img, .media-box video {
-            width: 100%;
-            height: 180px;
-            object-fit: cover;
-            display: block;
-        }
-
-        .gallery-card::-webkit-scrollbar { width: 6px; }
-        .gallery-card::-webkit-scrollbar-track { background: rgba(0,0,0,0.1); }
-        .gallery-card::-webkit-scrollbar-thumb { background: #00ffcc; border-radius: 10px; }
-
-        .fullscreen-overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.9);
-            z-index: 9999;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            opacity: 0;
-            pointer-events: none;
-            transition: opacity 0.4s ease;
-        }
-        .fullscreen-overlay.active {
-            opacity: 1;
-            pointer-events: auto;
-        }
-        .fullscreen-overlay img {
-            max-width: 90%;
-            max-height: 85vh;
-            border-radius: 10px;
-            box-shadow: 0 0 30px rgba(0, 255, 204, 0.3);
-            transform: scale(0.9);
-            transition: transform 0.4s ease;
-        }
-        .fullscreen-overlay.active img {
-            transform: scale(1);
-        }
-        .close-overlay {
-            position: absolute;
-            top: 20px;
-            right: 25px;
-            font-size: 35px;
-            color: #fff;
-            cursor: pointer;
-            text-shadow: 0 0 10px rgba(0,0,0,0.8);
-            transition: color 0.3s;
-        }
-        .close-overlay:hover {
-            color: #ff3366;
-        }
-
-        @keyframes fall { to { transform: translateY(105vh) rotate(360deg); } }
-        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
-        @keyframes pulse { 0%, 100% { opacity: 0.5; } 50% { opacity: 1; } }
-        @keyframes fadeIn { from { opacity: 0; transform: scale(0.95); } to { opacity: 1; transform: scale(1); } }
-    </style>
-</head>
-<body>
-
-    <!-- ⏳ LOADING SCREEN OVERLAY -->
-    <div id="preloader">
-        <div class="main-loader"></div>
-        <div class="loading-text">LOADING SECRET MESSAGE...</div>
-    </div>
-
-    <!-- 🎵 Background Sad Music -->
-    <audio id="bgMusic" loop>
-        <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-4.mp3" type="audio/mpeg">
-    </audio>
-
-    <!-- 📱 FULLSCREEN OVERLAY HTML -->
-    <div id="fullscreenOverlay" class="fullscreen-overlay" onclick="closeImage()">
-        <span class="close-overlay" onclick="closeImage()">&times;</span>
-        <img id="fullscreenImg" src="" alt="Full View">
-    </div>
-
-    <!-- LOCK SCREEN -->
-    <div id="lockScreen" class="card">
-        <h1>🔒 Private Message<br><span style="font-size: 1rem; color: #aaa; text-shadow: none;">Enter Password to Unlock</span></h1>
-        <input type="password" id="passwordField" class="pass-input" placeholder="Enter Password here...">
-        <br>
-        <button class="btn" onclick="checkPassword()">Unlock</button>
-    </div>
-
-    <!-- SCREENS 1 TO 4 -->
-    <div id="screen1" class="card hidden">
-        <h1>Naya Pyar Mubarak Ho Aapko ❤️</h1>
-        <button class="btn" onclick="showScreen(2)">Next</button>
-    </div>
-
-    <div id="screen2" class="card screen-2 hidden">
-        <h1>Naya Yaar Mubarak Ho Aapko ✨</h1>
-        <button class="btn" onclick="showScreen(3)">Next</button>
-    </div>
-
-    <div id="screen3" class="card screen-3 hidden">
-        <h1>
-            "Kaise Usne Mujhse Chhup Ke Ye Sab Kuchh Badla,<br>
-            Chehra Badla, Rasta Badla, Baad Mein Yaar Badla...<br><br>
-            Main Uske Baare Mein Kehta Tha Logo Se,<br>
-            Mera Naam Badal Dena Wo Sakhs Agar Badla." 💔
-        </h1>
-        <button class="btn" onclick="showScreen(4)">Next</button>
-    </div>
-
-    <div id="screen4" class="card screen-4 hidden">
-        <h1>
-            "Mard Badlna Teri Fitrat Hai Kisi Ek Par Tera Dil Rukta Nahi,<br>
-            Wo To Mohabbat Ka Maara Tha Main Warna Ye Insaan Jaan Jaane Ki Naubat Par Bhi Rukta Nahi...<br><br>
-            Kar Sakta Hoon Har Galtiyan Maaf Magar Karu Gair Mard Ye Mujhse Bardasht Nahi,<br>
-            Main Kisi Kothe Ki Tabaif Se Ishq Kar Sakta Hoon Magar Ab Dobara Tujhse Nahi." 😡🔥
-        </h1>
-        <button class="btn" onclick="showScreen(5)">Next</button>
-    </div>
-
-    <!-- FIFTH SCREEN -->
-    <div id="screen5" class="card screen-5 hidden">
-        <h1>"Kuchh Baatein Batati Jaa,<br>Apne Naye Yaar Kaa Naam Batati Jaa..." ✍️</h1>
-        <textarea id="messageField" class="text-input" placeholder="Yahan apna reply likhein..." rows="5"></textarea>
-        <br>
-        <button class="btn btn-main" id="sendBtn" onclick="sendEmail()">
-            <div id="btnSpinner" class="spinner"></div>
-            <span id="btnText">Send Message</span>
-        </button>
-        <br>
-        <button class="btn btn-memories" onclick="showScreen(6)">See Memories 📸</button>
-    </div>
-
-    <!-- 🖼️ SIXTH SCREEN -->
-    <div id="screen6" class="card gallery-card hidden">
-        <h1>📸 Kuch Purani Yaadein... 💔</h1>
-        <div class="grid-container">
-            
-            <div class="media-box" onclick="openImage('Snapchat-835975180.jpg')">
-                <img src="Snapchat-835975180.jpg" alt="Memory">
-            </div>
-            <div class="media-box" onclick="openImage('Snapchat-270553057.png')">
-                <img src="Snapchat-270553057.png" alt="Memory">
-            </div>
-            <div class="media-box" onclick="openImage('IMG_20241128_085148.jpg')">
-                <img src="IMG_20241128_085148.jpg" alt="Memory">
-            </div>
-            <div class="media-box">
-                <video src="VID-20241026-WA0001.mp4" controls></video>
-            </div>
-
-            <div class="media-box" onclick="openImage('Screenshot_20260506_234638.jpg')">
-                <img src="Screenshot_20260506_234638.jpg" alt="Memory">
-            </div>
-            <div class="media-box" onclick="openImage('1777379624857.png')">
-                <img src="1777379624857.png" alt="Memory">
-            </div>
-            <div class="media-box" onclick="openImage('IMG_20251022_150409.jpg')">
-                <img src="IMG_20251022_150409.jpg" alt="Memory">
-            </div>
-            <div class="media-box" onclick="openImage('Screenshot_2025-04-02-23-45-52-859_com.instagram.android.jpg')">
-                <img src="Screenshot_2025-04-02-23-45-52-859_com.instagram.android.jpg" alt="Memory">
-            </div>
-
-        </div>
-    </div>
-
-    <script>
-        let heartInterval;
-
-        // ⏳ JAISE HI WINDOW LOAD HOGI - 3 SECONDS KA LOADER CHALEGA
-        window.addEventListener('load', function() {
-            setTimeout(function() {
-                const loader = document.getElementById('preloader');
-                loader.style.opacity = '0';
-                setTimeout(() => {
-                    loader.style.display = 'none';
-                }, 600); // Fade out transition complete hone ke liye
-            }, 3000); // 3000 milliseconds = 3 Seconds Loading time
-        });
-
-        function openImage(src) {
-            const overlay = document.getElementById('fullscreenOverlay');
-            const fullImg = document.getElementById('fullscreenImg');
-            fullImg.src = src;
-            overlay.classList.add('active');
-        }
-
-        function closeImage() {
-            const overlay = document.getElementById('fullscreenOverlay');
-            overlay.classList.remove('active');
-        }
-
-        function checkPassword() {
-            const enteredPassword = document.getElementById('passwordField').value;
-            const correctPassword = "1234"; 
-            if (enteredPassword === correctPassword) {
-                const music = document.getElementById('bgMusic');
-                music.volume = 0.5;
-                music.play().catch(err => console.log("Music blocked:", err));
-
-                document.getElementById('lockScreen').classList.add('hidden');
-                document.getElementById('screen1').classList.remove('hidden');
-            } else {
-                alert("Galat Password! Dobara koshish karein. ❌");
-                document.getElementById('passwordField').value = ""; 
-            }
-        }
-
-        function showScreen(screenNumber) {
-            const screens = ['lockScreen', 'screen1', 'screen2', 'screen3', 'screen4', 'screen5', 'screen6'];
-            screens.forEach(s => document.getElementById(s).classList.add('hidden'));
-            
-            document.getElementById('screen' + screenNumber).classList.remove('hidden');
-
-            if (screenNumber === 3 || screenNumber === 4) {
-                if (!heartInterval) {
-                    heartInterval = setInterval(createBrokenHeart, 300);
-                }
-            } else {
-                clearInterval(heartInterval);
-                heartInterval = null;
-            }
-
-            if (screenNumber === 6) {
-                document.body.style.overflowY = "auto";
-            } else {
-                document.body.style.overflow = "hidden";
-            }
-        }
-
-        function createBrokenHeart() {
-            const heart = document.createElement('div');
-            heart.classList.add('heart-fall');
-            heart.innerText = '💔';
-            heart.style.left = Math.random() * 100 + 'vw';
-            heart.style.animationDuration = Math.random() * 2 + 3 + 's';
-            heart.style.opacity = Math.random() * 0.5 + 0.3;
-            document.body.appendChild(heart);
-            setTimeout(() => { heart.remove(); }, 5000);
-        }
-
-        function sendEmail() {
-            const textMsg = document.getElementById('messageField').value;
-            const sendBtn = document.getElementById('sendBtn');
-            const btnSpinner = document.getElementById('btnSpinner');
-            const btnText = document.getElementById('btnText');
-
-            if(textMsg.trim() === "") {
-                alert("Pehle kuch likh toh do! ✍️");
-                return;
-            }
-
-            sendBtn.style.pointerEvents = "none";
-            sendBtn.style.opacity = "0.7";
-            btnSpinner.style.display = "block";
-            btnText.innerText = "Sending...";
-
-            var templateParams = {
-                message: textMsg,
-                date: new Date().toLocaleString()
-            };
-            
-            emailjs.send('service_g9hb3t6', 'template_e9aw4ub', templateParams)
-                .then(function(response) {
-                   sendBtn.style.pointerEvents = "auto";
-                   sendBtn.style.opacity = "1";
-                   btnSpinner.style.display = "none";
-                   btnText.innerText = "Send Message";
-                   alert('Message successfully bhej diya gaya hai! ✔️');
-                }, function(error) {
-                   sendBtn.style.pointerEvents = "auto";
-                   sendBtn.style.opacity = "1";
-                   btnSpinner.style.display = "none";
-                   btnText.innerText = "Send Message";
-                   alert('Bheja nahi ja saka... Details check karein.');
-                });
-        }
-    </script>
-</body>
-    </html>
+        .pass-input:focus { border-color: #00ffcc; box-shadow: 0 0
