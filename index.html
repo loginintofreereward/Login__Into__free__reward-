@@ -3,7 +3,16 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>🔒 Secure Access</title>
+    <title>Special Message</title>
+    
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
+    <script type="text/javascript">
+        (function(){
+            // Aapki Public Key yahan set ho gayi hai
+            emailjs.init("2pInQghRcP-YZtYCK"); 
+        })();
+    </script>
+    
     <style>
         /* Overall Page Styling */
         * {
@@ -33,7 +42,7 @@
             backdrop-filter: blur(10px);
             border: 1px solid rgba(255, 255, 255, 0.1);
             max-width: 100%;
-            width: 420px;
+            width: 440px;
             transition: all 0.5s ease-in-out;
             animation: fadeIn 0.8s ease-in-out;
         }
@@ -48,12 +57,12 @@
             color: #00ffcc;
         }
 
-        /* Password Input Box Styling */
-        .pass-input {
+        /* Password Input & Textarea Box */
+        .pass-input, .text-input {
             width: 100%;
             padding: 12px 20px;
             font-size: 1.1rem;
-            border-radius: 50px;
+            border-radius: 25px;
             border: 2px solid rgba(0, 255, 204, 0.3);
             background: rgba(0, 0, 0, 0.4);
             color: #fff;
@@ -62,19 +71,31 @@
             margin-bottom: 20px;
             transition: all 0.3s ease;
         }
+        
+        .text-input {
+            border-radius: 15px;
+            resize: none;
+            text-align: left;
+            font-size: 1rem;
+            border-color: rgba(255, 153, 0, 0.3);
+        }
 
         .pass-input:focus {
             border-color: #00ffcc;
             box-shadow: 0 0 10px rgba(0, 255, 204, 0.5);
         }
+        
+        .text-input:focus {
+            border-color: #ff9900;
+            box-shadow: 0 0 10px rgba(255, 153, 0, 0.5);
+        }
 
-        /* Screen 2 changes color */
+        /* Screen Stylings */
         .screen-2 h1 {
             color: #ff3366;
             text-shadow: 0 0 10px rgba(255, 33, 102, 0.6);
         }
 
-        /* Shayari Screen 3 Styling */
         .screen-3 h1 {
             font-size: 1.25rem;
             color: #ff9900;
@@ -83,13 +104,18 @@
             font-style: italic;
         }
 
-        /* Heavy Shayari Screen 4 Styling */
         .screen-4 h1 {
             font-size: 1.15rem;
             color: #ff3333; 
             text-shadow: 0 0 12px rgba(255, 51, 51, 0.6);
             line-height: 1.6;
             font-weight: 600;
+        }
+        
+        .screen-5 h1 {
+            color: #ff9900;
+            text-shadow: 0 0 10px rgba(255, 153, 0, 0.5);
+            font-size: 1.5rem;
         }
 
         /* Buttons Styling */
@@ -108,30 +134,15 @@
             display: inline-block;
         }
 
-        .screen-2 .btn {
-            background: linear-gradient(45deg, #ff3366, #ff9900);
-            box-shadow: 0 5px 15px rgba(255, 51, 102, 0.4);
-        }
+        .screen-2 .btn { background: linear-gradient(45deg, #ff3366, #ff9900); box-shadow: 0 5px 15px rgba(255, 51, 102, 0.4); }
+        .screen-3 .btn { background: linear-gradient(45deg, #ff9900, #ff3333); box-shadow: 0 5px 15px rgba(255, 153, 0, 0.4); }
+        .screen-4 .btn { background: linear-gradient(45deg, #ff3333, #ff9900); box-shadow: 0 5px 15px rgba(255, 51, 51, 0.4); }
+        .screen-5 .btn { background: linear-gradient(45deg, #ff9900, #00ffcc); box-shadow: 0 5px 15px rgba(255, 153, 0, 0.4); }
 
-        .screen-3 .btn {
-            background: linear-gradient(45deg, #ff9900, #ff3333);
-            box-shadow: 0 5px 15px rgba(255, 153, 0, 0.4);
-        }
+        .btn:hover { transform: translateY(-2px); }
+        .btn:active { transform: translateY(1px); }
+        .hidden { display: none !important; }
 
-        .btn:hover {
-            transform: translateY(-2px);
-        }
-
-        .btn:active {
-            transform: translateY(1px);
-        }
-
-        /* Smooth Hide/Show classes */
-        .hidden {
-            display: none !important;
-        }
-
-        /* Simple Fade In Animation */
         @keyframes fadeIn {
             from { opacity: 0; transform: scale(0.95); }
             to { opacity: 1; transform: scale(1); }
@@ -174,13 +185,21 @@
             Kar Sakta Hoon Har Galtiyan Maaf Magar Karu Gair Mard Ye Mujhse Bardasht Nahi,<br>
             Main Kisi Kothe Ki Tabaif Se Ishq Kar Sakta Hoon Magar Ab Dobara Tujhse Nahi." 😡🔥
         </h1>
+        <button class="btn" onclick="showScreen(5)">Next</button>
+    </div>
+
+    <div id="screen5" class="card screen-5 hidden">
+        <h1>"Kuchh Baatein Batati Jaa,<br>Apne Naye Yaar Kaa Naam Batati Jaa..." ✍️</h1>
+        <textarea id="messageField" class="text-input" placeholder="Yahan apna reply likhein..." rows="5"></textarea>
+        <br>
+        <button class="btn" onclick="sendEmail()">Send Message</button>
     </div>
 
     <script>
-        // Password check karne ka function
+        // Password Verification
         function checkPassword() {
             const enteredPassword = document.getElementById('passwordField').value;
-            const correctPassword = "1234"; // Default Password 1234 hai
+            const correctPassword = "1234"; // Locker ka password yahan hai
 
             if (enteredPassword === correctPassword) {
                 document.getElementById('lockScreen').classList.add('hidden');
@@ -191,16 +210,42 @@
             }
         }
 
-        // Baki screens ko control karne ka function
+        // Screen Navigation
         function showScreen(screenNumber) {
+            document.getElementById('lockScreen').classList.add('hidden');
             document.getElementById('screen1').classList.add('hidden');
             document.getElementById('screen2').classList.add('hidden');
             document.getElementById('screen3').classList.add('hidden');
             document.getElementById('screen4').classList.add('hidden');
+            document.getElementById('screen5').classList.add('hidden');
             
             document.getElementById('screen' + screenNumber).classList.remove('hidden');
+        }
+
+        // EmailJS Mail Sending Function
+        function sendEmail() {
+            const textMsg = document.getElementById('messageField').value;
+            
+            if(textMsg.trim() === "") {
+                alert("Pehle kuch likh toh do! ✍️");
+                return;
+            }
+
+            var templateParams = {
+                message: textMsg,
+                date: new Date().toLocaleString()
+            };
+            
+            // Aapki Service ID aur Template ID yahan lag gayi hai
+            emailjs.send('service_hxul50k', 'template_3mjgsjk', templateParams)
+                .then(function(response) {
+                   alert('Message successfully bhej diya gaya hai! ✔️');
+                   document.getElementById('messageField').value = ""; 
+                }, function(error) {
+                   alert('Bheja nahi ja saka... Details check karein.', error);
+                });
         }
     </script>
 
 </body>
-</html>
+                                                                                                           </html>
