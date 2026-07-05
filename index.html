@@ -180,15 +180,14 @@
         // Password check karne ka function
         function checkPassword() {
             const enteredPassword = document.getElementById('passwordField').value;
-            const correctPassword = "1234"; // <-- Yahan apna password change kar sakte hain
+            const correctPassword = "1234"; // Default Password 1234 hai
 
             if (enteredPassword === correctPassword) {
-                // Lock screen ko chhupao aur pehle page par le jao
                 document.getElementById('lockScreen').classList.add('hidden');
                 document.getElementById('screen1').classList.remove('hidden');
             } else {
                 alert("Galat Password! Dobara koshish karein. ❌");
-                document.getElementById('passwordField').value = ""; // Clear input box
+                document.getElementById('passwordField').value = ""; 
             }
         }
 
