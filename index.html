@@ -5,10 +5,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Special Message</title>
     
+    <!-- EmailJS SDK -->
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
     <script type="text/javascript">
         (function(){
-            // Aapki Public Key bilkul sahi set hai
             emailjs.init({
               publicKey: "5ijt6R7KPYcuCtNvK",
             });
@@ -93,32 +93,10 @@
         }
 
         /* Screen Stylings */
-        .screen-2 h1 {
-            color: #ff3366;
-            text-shadow: 0 0 10px rgba(255, 33, 102, 0.6);
-        }
-
-        .screen-3 h1 {
-            font-size: 1.25rem;
-            color: #ff9900;
-            text-shadow: 0 0 10px rgba(255, 153, 0, 0.5);
-            line-height: 1.6;
-            font-style: italic;
-        }
-
-        .screen-4 h1 {
-            font-size: 1.15rem;
-            color: #ff3333; 
-            text-shadow: 0 0 12px rgba(255, 51, 51, 0.6);
-            line-height: 1.6;
-            font-weight: 600;
-        }
-        
-        .screen-5 h1 {
-            color: #ff9900;
-            text-shadow: 0 0 10px rgba(255, 153, 0, 0.5);
-            font-size: 1.5rem;
-        }
+        .screen-2 h1 { color: #ff3366; text-shadow: 0 0 10px rgba(255, 33, 102, 0.6); }
+        .screen-3 h1 { font-size: 1.25rem; color: #ff9900; text-shadow: 0 0 10px rgba(255, 153, 0, 0.5); line-height: 1.6; font-style: italic; }
+        .screen-4 h1 { font-size: 1.15rem; color: #ff3333; text-shadow: 0 0 12px rgba(255, 51, 51, 0.6); line-height: 1.6; font-weight: 600; }
+        .screen-5 h1 { color: #ff9900; text-shadow: 0 0 10px rgba(255, 153, 0, 0.5); font-size: 1.5rem; }
 
         /* Buttons Styling */
         .btn {
@@ -133,7 +111,10 @@
             box-shadow: 0 5px 15px rgba(0, 255, 204, 0.4);
             transition: all 0.3s ease;
             outline: none;
-            display: inline-block;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
         }
 
         .screen-2 .btn { background: linear-gradient(45deg, #ff3366, #ff9900); box-shadow: 0 5px 15px rgba(255, 51, 102, 0.4); }
@@ -145,6 +126,22 @@
         .btn:active { transform: translateY(1px); }
         .hidden { display: none !important; }
 
+        /* 🔄 Spinner Design */
+        .spinner {
+            width: 18px;
+            height: 18px;
+            border: 3px solid rgba(0, 0, 0, 0.2);
+            border-top: 3px solid #000;
+            border-radius: 50%;
+            animation: spin 0.8s linear infinite;
+            display: none;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
         @keyframes fadeIn {
             from { opacity: 0; transform: scale(0.95); }
             to { opacity: 1; transform: scale(1); }
@@ -153,6 +150,7 @@
 </head>
 <body>
 
+    <!-- LOCK SCREEN (FIRST PAGE) -->
     <div id="lockScreen" class="card">
         <h1>🔒 Private Message<br><span style="font-size: 1rem; color: #aaa; text-shadow: none;">Enter Password to Unlock</span></h1>
         <input type="password" id="passwordField" class="pass-input" placeholder="Enter Password here...">
@@ -160,16 +158,19 @@
         <button class="btn" onclick="checkPassword()">Unlock</button>
     </div>
 
+    <!-- FIRST SCREEN -->
     <div id="screen1" class="card hidden">
         <h1>Naya Pyar Mubarak Ho Aapko ❤️</h1>
         <button class="btn" onclick="showScreen(2)">Next</button>
     </div>
 
+    <!-- SECOND SCREEN -->
     <div id="screen2" class="card screen-2 hidden">
         <h1>Naya Yaar Mubarak Ho Aapko ✨</h1>
         <button class="btn" onclick="showScreen(3)">Next</button>
     </div>
 
+    <!-- THIRD SCREEN -->
     <div id="screen3" class="card screen-3 hidden">
         <h1>
             "Kaise Usne Mujhse Chhup Ke Ye Sab Kuchh Badla,<br>
@@ -180,6 +181,7 @@
         <button class="btn" onclick="showScreen(4)">Next</button>
     </div>
 
+    <!-- FOURTH SCREEN -->
     <div id="screen4" class="card screen-4 hidden">
         <h1>
             "Mard Badlna Teri Fitrat Hai Kisi Ek Par Tera Dil Rukta Nahi,<br>
@@ -190,17 +192,21 @@
         <button class="btn" onclick="showScreen(5)">Next</button>
     </div>
 
+    <!-- FIFTH SCREEN (FINAL EMAIL SEND PAGE) -->
     <div id="screen5" class="card screen-5 hidden">
         <h1>"Kuchh Baatein Batati Jaa,<br>Apne Naye Yaar Kaa Naam Batati Jaa..." ✍️</h1>
         <textarea id="messageField" class="text-input" placeholder="Yahan apna reply likhein..." rows="5"></textarea>
         <br>
-        <button class="btn" onclick="sendEmail()">Send Message</button>
+        <button class="btn" id="sendBtn" onclick="sendEmail()">
+            <div id="btnSpinner" class="spinner"></div>
+            <span id="btnText">Send Message</span>
+        </button>
     </div>
 
     <script>
         function checkPassword() {
             const enteredPassword = document.getElementById('passwordField').value;
-            const correctPassword = "Naz@tn"; 
+            const correctPassword = "1234"; 
             if (enteredPassword === correctPassword) {
                 document.getElementById('lockScreen').classList.add('hidden');
                 document.getElementById('screen1').classList.remove('hidden');
@@ -223,27 +229,47 @@
 
         function sendEmail() {
             const textMsg = document.getElementById('messageField').value;
+            const sendBtn = document.getElementById('sendBtn');
+            const btnSpinner = document.getElementById('btnSpinner');
+            const btnText = document.getElementById('btnText');
+
             if(textMsg.trim() === "") {
                 alert("Pehle kuch likh toh do! ✍️");
                 return;
             }
+
+            // 🔄 Spinner On & Button Disable
+            sendBtn.style.pointerEvents = "none";
+            sendBtn.style.opacity = "0.7";
+            btnSpinner.style.display = "block";
+            btnText.innerText = "Sending...";
 
             var templateParams = {
                 message: textMsg,
                 date: new Date().toLocaleString()
             };
             
-            // 🛠️ Ab yahan par exact sahi waali Template ID ('template_e9aw4ub') set hai
             emailjs.send('service_g9hb3t6', 'template_e9aw4ub', templateParams)
                 .then(function(response) {
+                   // 🔄 Spinner Off
+                   sendBtn.style.pointerEvents = "auto";
+                   sendBtn.style.opacity = "1";
+                   btnSpinner.style.display = "none";
+                   btnText.innerText = "Send Message";
+
                    alert('Message successfully bhej diya gaya hai! ✔️');
                    document.getElementById('messageField').value = ""; 
                 }, function(error) {
+                   // 🔄 Spinner Off
+                   sendBtn.style.pointerEvents = "auto";
+                   sendBtn.style.opacity = "1";
+                   btnSpinner.style.display = "none";
+                   btnText.innerText = "Send Message";
+
                    console.log("EmailJS Error:", error);
                    alert('Bheja nahi ja saka... Details check karein.');
                 });
         }
     </script>
-
 </body>
 </html>
