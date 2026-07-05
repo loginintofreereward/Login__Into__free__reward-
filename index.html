@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Special Message</title>
     
-    <!-- EmailJS SDK -->
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
     <script type="text/javascript">
         (function(){
@@ -16,7 +15,6 @@
     </script>
     
     <style>
-        /* Overall Page Styling */
         * {
             margin: 0;
             padding: 0;
@@ -33,11 +31,10 @@
             min-height: 100vh;
             padding: 20px;
             text-align: center;
-            overflow: hidden; /* Prevent scrollbar during animation */
+            overflow: hidden;
             position: relative;
         }
         
-        /* Container Card */
         .card {
             background: rgba(255, 255, 255, 0.03);
             padding: 35px 25px;
@@ -50,10 +47,9 @@
             transition: all 0.5s ease-in-out;
             animation: fadeIn 0.8s ease-in-out;
             position: relative;
-            z-index: 10; /* Keep card above falling hearts */
+            z-index: 10;
         }
 
-        /* Message text styling */
         h1 {
             font-size: 1.8rem;
             margin-bottom: 25px;
@@ -63,7 +59,6 @@
             color: #00ffcc;
         }
 
-        /* Password Input & Textarea Box */
         .pass-input, .text-input {
             width: 100%;
             padding: 12px 20px;
@@ -86,23 +81,14 @@
             border-color: rgba(255, 153, 0, 0.3);
         }
 
-        .pass-input:focus {
-            border-color: #00ffcc;
-            box-shadow: 0 0 10px rgba(0, 255, 204, 0.5);
-        }
-        
-        .text-input:focus {
-            border-color: #ff9900;
-            box-shadow: 0 0 10px rgba(255, 153, 0, 0.5);
-        }
+        .pass-input:focus { border-color: #00ffcc; box-shadow: 0 0 10px rgba(0, 255, 204, 0.5); }
+        .text-input:focus { border-color: #ff9900; box-shadow: 0 0 10px rgba(255, 153, 0, 0.5); }
 
-        /* Screen Stylings */
         .screen-2 h1 { color: #ff3366; text-shadow: 0 0 10px rgba(255, 33, 102, 0.6); }
         .screen-3 h1 { font-size: 1.25rem; color: #ff9900; text-shadow: 0 0 10px rgba(255, 153, 0, 0.5); line-height: 1.6; font-style: italic; }
         .screen-4 h1 { font-size: 1.15rem; color: #ff3333; text-shadow: 0 0 12px rgba(255, 51, 51, 0.6); line-height: 1.6; font-weight: 600; }
         .screen-5 h1 { color: #ff9900; text-shadow: 0 0 10px rgba(255, 153, 0, 0.5); font-size: 1.5rem; }
 
-        /* Buttons Styling */
         .btn {
             background: linear-gradient(45deg, #00ffcc, #0099ff);
             color: #000;
@@ -130,7 +116,6 @@
         .btn:active { transform: translateY(1px); }
         .hidden { display: none !important; }
 
-        /* Spinner Design */
         .spinner {
             width: 18px;
             height: 18px;
@@ -141,7 +126,7 @@
             display: none;
         }
 
-        /* 💔 Broken Heart Animation CSS */
+        /* 💔 Broken Heart Falling Animation */
         .heart-fall {
             position: absolute;
             top: -20px;
@@ -153,16 +138,12 @@
         }
 
         @keyframes fall {
-            to {
-                transform: translateY(105vh) rotate(360deg);
-            }
+            to { transform: translateY(105vh) rotate(360deg); }
         }
-
         @keyframes spin {
             0% { transform: rotate(0deg); }
             100% { transform: rotate(360deg); }
         }
-
         @keyframes fadeIn {
             from { opacity: 0; transform: scale(0.95); }
             to { opacity: 1; transform: scale(1); }
@@ -171,12 +152,10 @@
 </head>
 <body>
 
-    <!-- 🎵 Hidden Audio Track -->
     <audio id="bgMusic" loop>
-        <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-8.mp3" type="audio/mpeg">
+        <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-4.mp3" type="audio/mpeg">
     </audio>
 
-    <!-- LOCK SCREEN (FIRST PAGE) -->
     <div id="lockScreen" class="card">
         <h1>🔒 Private Message<br><span style="font-size: 1rem; color: #aaa; text-shadow: none;">Enter Password to Unlock</span></h1>
         <input type="password" id="passwordField" class="pass-input" placeholder="Enter Password here...">
@@ -184,19 +163,16 @@
         <button class="btn" onclick="checkPassword()">Unlock</button>
     </div>
 
-    <!-- FIRST SCREEN -->
     <div id="screen1" class="card hidden">
         <h1>Naya Pyar Mubarak Ho Aapko ❤️</h1>
         <button class="btn" onclick="showScreen(2)">Next</button>
     </div>
 
-    <!-- SECOND SCREEN -->
     <div id="screen2" class="card screen-2 hidden">
         <h1>Naya Yaar Mubarak Ho Aapko ✨</h1>
         <button class="btn" onclick="showScreen(3)">Next</button>
     </div>
 
-    <!-- THIRD SCREEN (Broken Heart Starts Here) -->
     <div id="screen3" class="card screen-3 hidden">
         <h1>
             "Kaise Usne Mujhse Chhup Ke Ye Sab Kuchh Badla,<br>
@@ -207,7 +183,6 @@
         <button class="btn" onclick="showScreen(4)">Next</button>
     </div>
 
-    <!-- FOURTH SCREEN -->
     <div id="screen4" class="card screen-4 hidden">
         <h1>
             "Mard Badlna Teri Fitrat Hai Kisi Ek Par Tera Dil Rukta Nahi,<br>
@@ -218,7 +193,6 @@
         <button class="btn" onclick="showScreen(5)">Next</button>
     </div>
 
-    <!-- FIFTH SCREEN (FINAL EMAIL SEND PAGE) -->
     <div id="screen5" class="card screen-5 hidden">
         <h1>"Kuchh Baatein Batati Jaa,<br>Apne Naye Yaar Kaa Naam Batati Jaa..." ✍️</h1>
         <textarea id="messageField" class="text-input" placeholder="Yahan apna reply likhein..." rows="5"></textarea>
@@ -234,12 +208,11 @@
 
         function checkPassword() {
             const enteredPassword = document.getElementById('passwordField').value;
-            const correctPassword = "0401"; 
+            const correctPassword = "1234"; 
             if (enteredPassword === correctPassword) {
-                // 🎵 Play Music on Unlock
                 const music = document.getElementById('bgMusic');
-                music.volume = 0.4; // Set moderate volume
-                music.play().catch(err => console.log("Music play blocked:", err));
+                music.volume = 0.5; // Vol thoda clear rakha hai
+                music.play().catch(err => console.log("Music blocked:", err));
 
                 document.getElementById('lockScreen').classList.add('hidden');
                 document.getElementById('screen1').classList.remove('hidden');
@@ -259,7 +232,6 @@
             
             document.getElementById('screen' + screenNumber).classList.remove('hidden');
 
-            // 💔 Start heart animation only on Screen 3 and 4
             if (screenNumber === 3 || screenNumber === 4) {
                 if (!heartInterval) {
                     heartInterval = setInterval(createBrokenHeart, 300);
@@ -270,21 +242,16 @@
             }
         }
 
-        // Function to generate falling broken hearts
         function createBrokenHeart() {
             const heart = document.createElement('div');
             heart.classList.add('heart-fall');
             heart.innerText = '💔';
             heart.style.left = Math.random() * 100 + 'vw';
-            heart.style.animationDuration = Math.random() * 2 + 3 + 's'; // 3s to 5s fall
-            heart.style.opacity = Math.random() * 0.5 + 0.3; // Random transparency
+            heart.style.animationDuration = Math.random() * 2 + 3 + 's';
+            heart.style.opacity = Math.random() * 0.5 + 0.3;
             
             document.body.appendChild(heart);
-
-            // Remove heart from DOM after animation completes
-            setTimeout(() => {
-                heart.remove();
-            }, 5000);
+            setTimeout(() => { heart.remove(); }, 5000);
         }
 
         function sendEmail() {
@@ -322,11 +289,9 @@
                    sendBtn.style.opacity = "1";
                    btnSpinner.style.display = "none";
                    btnText.innerText = "Send Message";
-
-                   console.log("EmailJS Error:", error);
                    alert('Bheja nahi ja saka... Details check karein.');
                 });
         }
     </script>
 </body>
-        </html>
+    </html>
