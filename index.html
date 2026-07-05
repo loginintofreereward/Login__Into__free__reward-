@@ -35,23 +35,7 @@
             overflow: hidden;
         }
 
-        /* ⏳ SITE MAIN PRELOADER */
-        #preloader {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: #090714;
-            z-index: 99999;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            transition: opacity 0.6s ease, pointer-events 0.6s ease;
-        }
-
-        /* 📸 FIXED MEMORIES LOADER SCREEN */
+        /* 📸 MEMORIES LOADER SCREEN */
         #memoriesLoader {
             position: fixed;
             top: 0;
@@ -72,16 +56,11 @@
             width: 50px;
             height: 50px;
             border: 4px solid rgba(0, 255, 204, 0.1);
-            border-top: 4px solid #00ffcc;
+            border-top: 4px solid #ff3366;
             border-radius: 50%;
             animation: spin 1s linear infinite;
-            box-shadow: 0 0 15px rgba(0, 255, 204, 0.3);
-            margin-bottom: 20px;
-        }
-
-        .memory-loader-circle {
-            border-top: 4px solid #ff3366;
             box-shadow: 0 0 15px rgba(255, 33, 102, 0.4);
+            margin-bottom: 20px;
         }
 
         .loading-text {
@@ -169,3 +148,11 @@
             resize: none;
             text-align: left;
             font-size: 1rem;
+            border-color: rgba(255, 153, 0, 0.3);
+        }
+
+        .pass-input:focus { border-color: #00ffcc; box-shadow: 0 0 10px rgba(0, 255, 204, 0.5); }
+        .text-input:focus { border-color: #ff9900; box-shadow: 0 0 10px rgba(255, 153, 0, 0.5); }
+
+        .screen-2 h1 { color: #ff3366; text-shadow: 0 0 10px rgba(255, 33, 102, 0.6); }
+        .
