@@ -5,12 +5,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Special Message</title>
     
-    <!-- EmailJS SDK -->
-    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
     <script type="text/javascript">
         (function(){
-            // Aapki Nayi Public Key yahan set ho gayi hai
-            emailjs.init("5ijt6R7KPYcuCtNvK"); 
+            // Aapki Public Key bilkul sahi set hai
+            emailjs.init({
+              publicKey: "5ijt6R7KPYcuCtNvK",
+            });
         })();
     </script>
     
@@ -152,7 +153,6 @@
 </head>
 <body>
 
-    <!-- LOCK SCREEN (FIRST PAGE) -->
     <div id="lockScreen" class="card">
         <h1>🔒 Private Message<br><span style="font-size: 1rem; color: #aaa; text-shadow: none;">Enter Password to Unlock</span></h1>
         <input type="password" id="passwordField" class="pass-input" placeholder="Enter Password here...">
@@ -160,19 +160,16 @@
         <button class="btn" onclick="checkPassword()">Unlock</button>
     </div>
 
-    <!-- FIRST SCREEN -->
     <div id="screen1" class="card hidden">
         <h1>Naya Pyar Mubarak Ho Aapko ❤️</h1>
         <button class="btn" onclick="showScreen(2)">Next</button>
     </div>
 
-    <!-- SECOND SCREEN -->
     <div id="screen2" class="card screen-2 hidden">
         <h1>Naya Yaar Mubarak Ho Aapko ✨</h1>
         <button class="btn" onclick="showScreen(3)">Next</button>
     </div>
 
-    <!-- THIRD SCREEN -->
     <div id="screen3" class="card screen-3 hidden">
         <h1>
             "Kaise Usne Mujhse Chhup Ke Ye Sab Kuchh Badla,<br>
@@ -183,7 +180,6 @@
         <button class="btn" onclick="showScreen(4)">Next</button>
     </div>
 
-    <!-- FOURTH SCREEN -->
     <div id="screen4" class="card screen-4 hidden">
         <h1>
             "Mard Badlna Teri Fitrat Hai Kisi Ek Par Tera Dil Rukta Nahi,<br>
@@ -194,7 +190,6 @@
         <button class="btn" onclick="showScreen(5)">Next</button>
     </div>
 
-    <!-- FIFTH SCREEN (FINAL EMAIL SEND PAGE) -->
     <div id="screen5" class="card screen-5 hidden">
         <h1>"Kuchh Baatein Batati Jaa,<br>Apne Naye Yaar Kaa Naam Batati Jaa..." ✍️</h1>
         <textarea id="messageField" class="text-input" placeholder="Yahan apna reply likhein..." rows="5"></textarea>
@@ -203,11 +198,9 @@
     </div>
 
     <script>
-        // Password Verification (Locker Password)
         function checkPassword() {
             const enteredPassword = document.getElementById('passwordField').value;
-            const correctPassword = "1234"; // Default password
-
+            const correctPassword = "1234"; 
             if (enteredPassword === correctPassword) {
                 document.getElementById('lockScreen').classList.add('hidden');
                 document.getElementById('screen1').classList.remove('hidden');
@@ -217,7 +210,6 @@
             }
         }
 
-        // Screen Navigation
         function showScreen(screenNumber) {
             document.getElementById('lockScreen').classList.add('hidden');
             document.getElementById('screen1').classList.add('hidden');
@@ -229,10 +221,8 @@
             document.getElementById('screen' + screenNumber).classList.remove('hidden');
         }
 
-        // EmailJS Mail Sending Function
         function sendEmail() {
             const textMsg = document.getElementById('messageField').value;
-            
             if(textMsg.trim() === "") {
                 alert("Pehle kuch likh toh do! ✍️");
                 return;
@@ -243,13 +233,14 @@
                 date: new Date().toLocaleString()
             };
             
-            // Aapki updated Service ID aur Template ID lag chuki hai
+            // 🛠️ Ab yahan par exact sahi waali Template ID ('template_e9aw4ub') set hai
             emailjs.send('service_g9hb3t6', 'template_e9aw4ub', templateParams)
                 .then(function(response) {
                    alert('Message successfully bhej diya gaya hai! ✔️');
                    document.getElementById('messageField').value = ""; 
                 }, function(error) {
-                   alert('Bheja nahi ja saka... Details check karein.', error);
+                   console.log("EmailJS Error:", error);
+                   alert('Bheja nahi ja saka... Details check karein.');
                 });
         }
     </script>
