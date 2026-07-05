@@ -50,7 +50,6 @@
             z-index: 10;
         }
 
-        /* Large Card for Gallery (Screen 6) */
         .gallery-card {
             width: 850px; 
             max-height: 85vh;
@@ -116,10 +115,18 @@
             gap: 10px;
         }
 
+        /* See Memories Button Styling */
+        .btn-memories {
+            background: linear-gradient(45deg, #00ffcc, #ff3366);
+            color: #fff;
+            margin-top: 15px;
+            box-shadow: 0 5px 15px rgba(255, 51, 102, 0.3);
+        }
+
         .screen-2 .btn { background: linear-gradient(45deg, #ff3366, #ff9900); box-shadow: 0 5px 15px rgba(255, 51, 102, 0.4); }
         .screen-3 .btn { background: linear-gradient(45deg, #ff9900, #ff3333); box-shadow: 0 5px 15px rgba(255, 153, 0, 0.4); }
         .screen-4 .btn { background: linear-gradient(45deg, #ff3333, #ff9900); box-shadow: 0 5px 15px rgba(255, 51, 51, 0.4); }
-        .screen-5 .btn { background: linear-gradient(45deg, #ff9900, #00ffcc); box-shadow: 0 5px 15px rgba(255, 153, 0, 0.4); }
+        .screen-5 .btn-main { background: linear-gradient(45deg, #ff9900, #00ffcc); box-shadow: 0 5px 15px rgba(255, 153, 0, 0.4); }
 
         .btn:hover { transform: translateY(-2px); }
         .btn:active { transform: translateY(1px); }
@@ -135,7 +142,6 @@
             display: none;
         }
 
-        /* 💔 Broken Heart Falling Animation */
         .heart-fall {
             position: absolute;
             top: -20px;
@@ -146,7 +152,6 @@
             animation: fall linear forwards;
         }
 
-        /* 🖼️ Grid Gallery Design */
         .grid-container {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
@@ -177,7 +182,7 @@
         .gallery-card::-webkit-scrollbar-thumb { background: #00ffcc; border-radius: 10px; }
 
         @keyframes fall { to { transform: translateY(105vh) rotate(360deg); } }
-        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+        @keyframes spin { 0 { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
         @keyframes fadeIn { from { opacity: 0; transform: scale(0.95); } to { opacity: 1; transform: scale(1); } }
     </style>
 </head>
@@ -227,15 +232,19 @@
         <button class="btn" onclick="showScreen(5)">Next</button>
     </div>
 
-    <!-- FIFTH SCREEN (EMAIL SEND PAGE) -->
+    <!-- FIFTH SCREEN (EMAIL SEND PAGE WITH NEW BUTTON) -->
     <div id="screen5" class="card screen-5 hidden">
         <h1>"Kuchh Baatein Batati Jaa,<br>Apne Naye Yaar Kaa Naam Batati Jaa..." ✍️</h1>
         <textarea id="messageField" class="text-input" placeholder="Yahan apna reply likhein..." rows="5"></textarea>
         <br>
-        <button class="btn" id="sendBtn" onclick="sendEmail()">
+        <!-- Send Button -->
+        <button class="btn btn-main" id="sendBtn" onclick="sendEmail()">
             <div id="btnSpinner" class="spinner"></div>
             <span id="btnText">Send Message</span>
         </button>
+        <br>
+        <!-- New Memories Button -->
+        <button class="btn btn-memories" onclick="showScreen(6)">See Memories 📸</button>
     </div>
 
     <!-- 🖼️ SIXTH SCREEN (YOUR REAL MEMORIES GALLERY) -->
@@ -243,22 +252,18 @@
         <h1>📸 Kuch Purani Yaadein... 💔</h1>
         <div class="grid-container">
             
-            <!-- Photo 1 -->
             <div class="media-box">
                 <img src="Snapchat-835975180.jpg" alt="Memory 1">
             </div>
             
-            <!-- Photo 2 -->
             <div class="media-box">
                 <img src="Snapchat-270553057.png" alt="Memory 2">
             </div>
 
-            <!-- Photo 3 -->
             <div class="media-box">
                 <img src="IMG_20241128_085148.jpg" alt="Memory 3">
             </div>
 
-            <!-- Video 1 (Controls added so she can play/pause) -->
             <div class="media-box">
                 <video src="VID-20241026-WA0001.mp4" controls></video>
             </div>
@@ -347,7 +352,8 @@
                    btnText.innerText = "Send Message";
 
                    alert('Message successfully bhej diya gaya hai! ✔️');
-                   showScreen(6);
+                   
+                   // 🛑 AUTO-OPEN REMOVED: Ab message send hone par yahin rukega, gallery open nahi hogi automatic.
                 }, function(error) {
                    sendBtn.style.pointerEvents = "auto";
                    sendBtn.style.opacity = "1";
