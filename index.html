@@ -64,25 +64,15 @@
 
         /* 📸 UNIQUE CUSTOM POPUP STYLE */
         #uniqueAlert {
-            position: fixed;
-            top: -100px;
-            left: 50%;
-            transform: translateX(-50%);
-            background: rgba(255, 255, 255, 0.05);
+            background: rgba(0, 255, 204, 0.2); /* White hatakar ye naya color */
             backdrop-filter: blur(15px);
-            border: 1px solid rgba(255, 51, 102, 0.4);
+            border: 2px solid #00ffcc; /* Border ko bhi match karne ke liye neon cyan kiya */
             padding: 15px 30px;
             border-radius: 30px;
             color: #fff;
             font-weight: 600;
             z-index: 100000;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.5), 0 0 20px rgba(255, 51, 102, 0.2);
-            transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            font-size: 1rem;
-            pointer-events: none;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5), 0 0 20px rgba(0, 255, 204, 0.4); /* Glow ko bhi cyan kiya */
         }
         #uniqueAlert.active {
             top: 30px;
