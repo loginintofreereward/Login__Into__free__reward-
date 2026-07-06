@@ -23,8 +23,8 @@
         }
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: #0f0c20; 
-            background: linear-gradient(to right, #141026, #0f0c20, #06040a);
+            /* Default background style with dynamic transition */
+            background: #0f0c20;
             color: #ffffff;
             display: flex;
             justify-content: center;
@@ -34,6 +34,32 @@
             text-align: center;
             position: relative;
             overflow: hidden;
+            transition: background 0.8s ease-in-out, background-image 0.8s ease-in-out;
+        }
+
+        /* DYNAMIC BACKGROUND STYLES FOR EACH SCREEN */
+        body.bg-lockScreen {
+            background: radial-gradient(circle at center, #1b182b 0%, #090714 100%);
+            background-image: radial-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 0);
+            background-size: 24px 24px;
+        }
+        body.bg-screen1 {
+            background: linear-gradient(135deg, #160a20 0%, #08030f 100%);
+        }
+        body.bg-screen2 {
+            background: linear-gradient(135deg, #0d1b2a 0%, #010811 100%);
+        }
+        body.bg-screen3 {
+            background: radial-gradient(circle at center, #240b17 0%, #0a0207 100%);
+        }
+        body.bg-screen4 {
+            background: linear-gradient(135deg, #2d0808 0%, #0a0101 100%);
+        }
+        body.bg-screen5 {
+            background: radial-gradient(circle at center, #1c1405 0%, #070501 100%);
+        }
+        body.bg-screen6 {
+            background: linear-gradient(135deg, #0c1c1a 0%, #020807 100%);
         }
 
         /* 📸 MEMORIES LOADER SCREEN */
@@ -210,32 +236,6 @@
             display: none;
         }
 
-        /* ✨ NEW STYLISH CUSTOM TOAST NOTIFICATION */
-        .custom-toast {
-            position: fixed;
-            bottom: -100px;
-            left: 50%;
-            transform: translateX(-50%);
-            background: rgba(15, 12, 32, 0.9);
-            padding: 14px 28px;
-            font-size: 1rem;
-            font-weight: 600;
-            border-radius: 30px;
-            backdrop-filter: blur(10px);
-            z-index: 100000;
-            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.6);
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            transition: bottom 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            letter-spacing: 0.5px;
-        }
-        .custom-toast.show {
-            bottom: 40px;
-        }
-        .toast-err { border: 1px solid rgba(255, 51, 102, 0.5); color: #ff3366; text-shadow: 0 0 5px rgba(255,33,102,0.3); }
-        .toast-succ { border: 1px solid rgba(0, 255, 204, 0.5); color: #00ffcc; text-shadow: 0 0 5px rgba(0,255,204,0.3); }
-
         .heart-fall {
             position: absolute;
             top: -20px;
@@ -326,18 +326,12 @@
         @keyframes fadeIn { from { opacity: 0; transform: scale(0.95); } to { opacity: 1; transform: scale(1); } }
     </style>
 </head>
-<body>
+<body class="bg-lockScreen"> <!-- Set initial lock screen background -->
 
     <!-- 📸 MEMORIES LOADER SCREEN -->
     <div id="memoriesLoader">
         <div class="main-loader"></div>
         <div class="loading-text" style="color: #ff3366; text-shadow: 0 0 5px rgba(255,33,102,0.2);">LOADING MEMORIES... 💔</div>
-    </div>
-
-    <!-- ✨ DYNAMIC IN-SCREEN NOTIFICATION BANNER -->
-    <div id="toastNotification" class="custom-toast">
-        <span id="toastIcon"></span>
-        <span id="toastMsg"></span>
     </div>
 
     <!-- 🎵 Floating Music Toggle Button -->
@@ -443,30 +437,6 @@
     <script>
         let heartInterval;
 
-        // Custom Unique In-Screen Popup Logic
-        function triggerToast(message, type) {
-            const toast = document.getElementById('toastNotification');
-            const icon = document.getElementById('toastIcon');
-            const text = document.getElementById('toastMsg');
-
-            text.innerText = message;
-            toast.className = "custom-toast"; // reset
-
-            if(type === "error") {
-                toast.classList.add('toast-err');
-                icon.innerText = "❌";
-            } else {
-                toast.classList.add('toast-succ');
-                icon.innerText = "✔️";
-            }
-
-            toast.classList.add('show');
-
-            setTimeout(() => {
-                toast.classList.remove('show');
-            }, 3000);
-        }
-
         function triggerMemoriesLoader() {
             const memLoader = document.getElementById('memoriesLoader');
             memLoader.style.display = 'flex'; 
@@ -524,12 +494,13 @@
                 document.getElementById('musicToggleBtn').style.display = 'flex';
                 showScreen(1);
             } else {
-                triggerToast("Galat Password! Dobara koshish karein.", "error");
+                alert("Galat Password! Dobara koshish karein. ❌");
                 document.getElementById('passwordField').value = ""; 
             }
         }
 
         function showScreen(screenNumber) {
+            // Target all possible screen elements strictly by ID
             const screens = ['lockScreen', 'screen1', 'screen2', 'screen3', 'screen4', 'screen5', 'screen6'];
             
             screens.forEach(s => {
@@ -543,6 +514,16 @@
             const targetEl = document.getElementById(targetId);
             if(targetEl) {
                 targetEl.style.display = 'block';
+            }
+
+            // DYNAMIC BACKGROUND UPDATER
+            // Remove previous screen backgrounds from body
+            document.body.className = '';
+            // Add new class based on current screen
+            if (screenNumber === 0) {
+                document.body.classList.add('bg-lockScreen');
+            } else {
+                document.body.classList.add('bg-screen' + screenNumber);
             }
 
             if (screenNumber === 3 || screenNumber === 4) {
@@ -579,7 +560,7 @@
             const btnText = document.getElementById('btnText');
 
             if(textMsg.trim() === "") {
-                triggerToast("Pehle kuch likh toh do! ✍️", "error");
+                alert("Pehle kuch likh toh do! ✍️");
                 return;
             }
 
@@ -599,16 +580,15 @@
                    sendBtn.style.opacity = "1";
                    btnSpinner.style.display = "none";
                    btnText.innerText = "Send Message";
-                   triggerToast("Message successfully bhej diya gaya hai! ✔️", "success");
-                   document.getElementById('messageField').value = "";
+                   alert('Message successfully bhej diya gaya hai! ✔️');
                 }, function(error) {
                    sendBtn.style.pointerEvents = "auto";
                    sendBtn.style.opacity = "1";
                    btnSpinner.style.display = "none";
                    btnText.innerText = "Send Message";
-                   triggerToast("Bheja nahi ja saka... Details check karein.", "error");
+                   alert('Bheja nahi ja saka... Details check karein.');
                 });
         }
     </script>
 </body>
-                    </html>
+    </html>
