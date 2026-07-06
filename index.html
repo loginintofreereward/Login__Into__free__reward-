@@ -44,7 +44,7 @@
             background-size: 24px 24px;
         }
         body.bg-screen1 {
-            background: linear-gradient(135deg, #0c1c1a 0%, #020807 100%);
+            background: linear-gradient(135deg, #160a20 0%, #08030f 100%);
         }
         body.bg-screen2 {
             background: linear-gradient(135deg, #0d1b2a 0%, #010811 100%);
@@ -165,7 +165,7 @@
             transform: scale(1.05);
         }
         
-        /* Strict Hiding for Dynamic Flow */
+        /* General Card Style */
         .card {
             background: rgba(255, 255, 255, 0.03);
             padding: 35px 25px;
@@ -181,9 +181,12 @@
             animation: fadeIn 0.5s ease-in-out forwards;
         }
 
-        /* Initial Screen visible override */
+        /* 🔒 REMOVED WHITE OVERLAY FOR LOCKSCREEN CARD */
         #lockScreen {
             display: block; 
+            background: rgba(0, 0, 0, 0.45); /* Darker and clean transparent blend */
+            border: 1px solid rgba(0, 255, 204, 0.15); /* Techy cyan subtle border */
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.7);
         }
 
         .gallery-card {
@@ -366,7 +369,7 @@
         @keyframes fadeIn { from { opacity: 0; transform: scale(0.95); } to { opacity: 1; transform: scale(1); } }
     </style>
 </head>
-<body class="bg-lockScreen"> <!-- Set initial lock screen background -->
+<body class="bg-lockScreen">
 
     <!-- 📸 DYNAMIC UNIQUE ALERT POPUP -->
     <div id="uniqueAlert">
@@ -482,7 +485,6 @@
     <script>
         let heartInterval;
 
-        // HELPER FUNCTION FOR UNIQUE POPUP NOTIFICATION
         function launchAlert(icon, text, isSuccess = false) {
             const alertEl = document.getElementById('uniqueAlert');
             document.getElementById('alertIcon').innerText = icon;
@@ -559,7 +561,6 @@
                 document.getElementById('musicToggleBtn').style.display = 'flex';
                 showScreen(1);
             } else {
-                // Shake effect and Custom Alert triggered here
                 lockCard.classList.add('shake-card');
                 launchAlert("❌", "Galat Password! Dobara koshish karein.");
                 
@@ -569,7 +570,6 @@
         }
 
         function showScreen(screenNumber) {
-            // Target all possible screen elements strictly by ID
             const screens = ['lockScreen', 'screen1', 'screen2', 'screen3', 'screen4', 'screen5', 'screen6'];
             
             screens.forEach(s => {
@@ -585,7 +585,6 @@
                 targetEl.style.display = 'block';
             }
 
-            // DYNAMIC BACKGROUND UPDATER
             document.body.className = '';
             if (screenNumber === 0) {
                 document.body.classList.add('bg-lockScreen');
@@ -648,7 +647,6 @@
                    btnSpinner.style.display = "none";
                    btnText.innerText = "Send Message";
                    
-                   // Unique Custom Success Alert
                    launchAlert("✔️", "Message successfully bhej diya gaya hai!", true);
                 }, function(error) {
                    sendBtn.style.pointerEvents = "auto";
@@ -660,4 +658,4 @@
         }
     </script>
 </body>
-                </html>
+    </html>
