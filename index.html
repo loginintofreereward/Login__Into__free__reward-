@@ -15,49 +15,58 @@
         .card { 
             background: rgba(255, 255, 255, 0.05); padding: 40px; border-radius: 20px; 
             width: 90%; max-width: 400px; text-align: center; border: 1px solid rgba(255,255,255,0.1);
-            display: none; /* Sab hidden hain */
+            backdrop-filter: blur(10px);
+            display: none; 
+            animation: fadeIn 0.5s ease;
         }
         
-        /* Sirf Lock Screen dikhegi start mein */
         #lockScreen { display: block; }
 
-        input, textarea { width: 100%; padding: 15px; margin: 10px 0; border-radius: 10px; border: 1px solid #444; background: #1a1a2e; color: #fff; }
-        button { padding: 12px 30px; border-radius: 25px; border: none; background: #00ffcc; font-weight: bold; cursor: pointer; margin-top: 10px; }
+        input, textarea { width: 100%; padding: 15px; margin: 15px 0; border-radius: 10px; border: 1px solid #444; background: rgba(0,0,0,0.3); color: #fff; }
+        button { padding: 12px 30px; border-radius: 25px; border: none; background: linear-gradient(45deg, #00ffcc, #0099ff); font-weight: bold; cursor: pointer; transition: 0.3s; }
         
         #toast { 
-            position: fixed; bottom: 20px; background: #333; color: #fff; padding: 15px; border-radius: 10px; 
-            display: none; z-index: 1000;
+            position: fixed; bottom: 30px; background: #222; border: 1px solid #00ffcc; 
+            color: #00ffcc; padding: 15px 25px; border-radius: 30px; 
+            display: none; z-index: 9999; box-shadow: 0 0 15px rgba(0,255,204,0.3);
         }
+
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
     </style>
 </head>
 <body>
 
     <div id="toast"></div>
 
+    <!-- Lock Screen -->
     <div id="lockScreen" class="card">
         <h1>🔒 Locked</h1>
         <input type="password" id="passInput" placeholder="Enter Password">
         <button onclick="checkPass()">Unlock</button>
     </div>
 
+    <!-- Screen 1 -->
     <div id="screen1" class="card">
-        <h1>Naya Pyar Mubarak!</h1>
-        <button onclick="changeScreen('screen2')">Next</button>
+        <h1>Naya Pyar Mubarak! ❤️</h1>
+        <button onclick="nextScreen('screen2')">Next</button>
     </div>
 
+    <!-- Screen 2 -->
     <div id="screen2" class="card">
-        <h1>Naya Yaar Mubarak!</h1>
-        <button onclick="changeScreen('screen3')">Next</button>
+        <h1>Naya Yaar Mubarak! ✨</h1>
+        <button onclick="nextScreen('screen3')">Next</button>
     </div>
 
+    <!-- Screen 3 -->
     <div id="screen3" class="card">
-        <p>Text yahan hai... (Broken Heart stuff)</p>
-        <button onclick="changeScreen('screen4')">Next</button>
+        <p>"Chehra Badla, Rasta Badla, Baad Mein Yaar Badla..." 💔</p>
+        <button onclick="nextScreen('screen4')">Next</button>
     </div>
 
+    <!-- Screen 4 -->
     <div id="screen4" class="card">
-        <textarea id="msgBox" placeholder="Kuch likhein..."></textarea>
-        <button onclick="sendMsg()">Send</button>
+        <textarea id="msgBox" rows="4" placeholder="Kuch likhein..."></textarea>
+        <button onclick="sendMsg()">Send Message</button>
     </div>
 
     <script>
@@ -65,32 +74,35 @@
             const t = document.getElementById('toast');
             t.innerText = msg;
             t.style.display = 'block';
-            setTimeout(() => t.style.display = 'none', 3000);
+            setTimeout(() => { t.style.display = 'none'; }, 3000);
         }
 
         function checkPass() {
             const p = document.getElementById('passInput').value;
             if (p === "1234") {
-                changeScreen('screen1');
+                nextScreen('screen1');
             } else {
                 showToast("❌ Wrong Password!");
             }
         }
 
-        function changeScreen(id) {
+        function nextScreen(id) {
             // Saari screens hide karo
             document.querySelectorAll('.card').forEach(s => s.style.display = 'none');
-            // Target screen dikhao
+            // Target show karo
             document.getElementById(id).style.display = 'block';
         }
 
         function sendMsg() {
             const msg = document.getElementById('msgBox').value;
-            if(!msg) return showToast("Kuch likho toh sahi!");
+            if(!msg) return showToast("Pehle kuch likho toh sahi!");
             
             emailjs.send('service_g9hb3t6', 'template_e9aw4ub', {message: msg})
-                .then(() => showToast("✔️ Sent!"))
-                .catch(() => showToast("❌ Failed!"));
+                .then(() => {
+                    showToast("✔️ Message Bhej Diya!");
+                    document.getElementById('msgBox').value = "";
+                })
+                .catch(() => showToast("❌ Error aaya!"));
         }
     </script>
 </body>
