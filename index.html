@@ -4,106 +4,611 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Special Message</title>
+    
+    <!-- EmailJS SDK -->
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
     <script type="text/javascript">
-        (function(){ emailjs.init({ publicKey: "5ijt6R7KPYcuCtNvK" }); })();
+        (function(){
+            emailjs.init({
+              publicKey: "5ijt6R7KPYcuCtNvK",
+            });
+        })();
     </script>
+    
     <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { font-family: sans-serif; background: #0f0c20; color: #fff; display: flex; justify-content: center; align-items: center; min-height: 100vh; overflow: hidden; }
-        
-        .card { 
-            background: rgba(255, 255, 255, 0.05); padding: 40px; border-radius: 20px; 
-            width: 90%; max-width: 400px; text-align: center; border: 1px solid rgba(255,255,255,0.1);
-            backdrop-filter: blur(10px);
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #0f0c20; 
+            background: linear-gradient(to right, #141026, #0f0c20, #06040a);
+            color: #ffffff;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* 📸 MEMORIES LOADER SCREEN */
+        #memoriesLoader {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: #090714;
+            z-index: 99998;
             display: none; 
-            animation: fadeIn 0.5s ease;
-        }
-        
-        #lockScreen { display: block; }
-
-        input, textarea { width: 100%; padding: 15px; margin: 15px 0; border-radius: 10px; border: 1px solid #444; background: rgba(0,0,0,0.3); color: #fff; }
-        button { padding: 12px 30px; border-radius: 25px; border: none; background: linear-gradient(45deg, #00ffcc, #0099ff); font-weight: bold; cursor: pointer; transition: 0.3s; }
-        
-        #toast { 
-            position: fixed; bottom: 30px; background: #222; border: 1px solid #00ffcc; 
-            color: #00ffcc; padding: 15px 25px; border-radius: 30px; 
-            display: none; z-index: 9999; box-shadow: 0 0 15px rgba(0,255,204,0.3);
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            opacity: 0;
+            transition: opacity 0.5s ease;
         }
 
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+        .main-loader {
+            width: 50px;
+            height: 50px;
+            border: 4px solid rgba(255, 33, 102, 0.1);
+            border-top: 4px solid #ff3366;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            box-shadow: 0 0 15px rgba(255, 33, 102, 0.4);
+            margin-bottom: 20px;
+        }
+
+        .loading-text {
+            font-size: 1.1rem;
+            color: #aaa;
+            letter-spacing: 2px;
+            font-weight: 500;
+            animation: pulse 1.5s infinite ease-in-out;
+        }
+
+        /* 🎵 MUSIC CONTROLLER BUTTON STYLE */
+        #musicToggleBtn {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 9995;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(0, 255, 204, 0.3);
+            color: #00ffcc;
+            padding: 10px 15px;
+            border-radius: 30px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            font-weight: bold;
+            backdrop-filter: blur(5px);
+            box-shadow: 0 0 10px rgba(0, 255, 204, 0.2);
+            transition: all 0.3s ease;
+            display: none; 
+            align-items: center;
+            gap: 5px;
+        }
+        #musicToggleBtn:hover {
+            background: rgba(0, 255, 204, 0.1);
+            box-shadow: 0 0 15px rgba(0, 255, 204, 0.5);
+            transform: scale(1.05);
+        }
+        
+        /* Strict Hiding for Dynamic Flow */
+        .card {
+            background: rgba(255, 255, 255, 0.03);
+            padding: 35px 25px;
+            border-radius: 20px;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            max-width: 100%;
+            width: 440px;
+            position: relative;
+            z-index: 10;
+            display: none; /* Default Hidden */
+            animation: fadeIn 0.5s ease-in-out forwards;
+        }
+
+        /* Initial Screen visible override */
+        #lockScreen {
+            display: block; 
+        }
+
+        .gallery-card {
+            width: 850px; 
+            max-height: 85vh;
+            overflow-y: auto; 
+            padding: 30px;
+        }
+
+        h1 {
+            font-size: 1.8rem;
+            margin-bottom: 25px;
+            font-weight: 700;
+            line-height: 1.4;
+            text-shadow: 0 0 10px rgba(0, 255, 204, 0.6);
+            color: #00ffcc;
+        }
+
+        .pass-input, .text-input {
+            width: 100%;
+            padding: 12px 20px;
+            font-size: 1.1rem;
+            border-radius: 25px;
+            border: 2px solid rgba(0, 255, 204, 0.3);
+            background: rgba(0, 0, 0, 0.4);
+            color: #fff;
+            text-align: center;
+            outline: none;
+            margin-bottom: 20px;
+            transition: all 0.3s ease;
+        }
+        
+        .text-input {
+            border-radius: 15px;
+            resize: none;
+            text-align: left;
+            font-size: 1rem;
+            border-color: rgba(255, 153, 0, 0.3);
+        }
+
+        .pass-input:focus { border-color: #00ffcc; box-shadow: 0 0 10px rgba(0, 255, 204, 0.5); }
+        .text-input:focus { border-color: #ff9900; box-shadow: 0 0 10px rgba(255, 153, 0, 0.5); }
+
+        .screen-2 h1 { color: #ff3366; text-shadow: 0 0 10px rgba(255, 33, 102, 0.6); }
+        .screen-3 h1 { font-size: 1.25rem; color: #ff9900; text-shadow: 0 0 10px rgba(255, 153, 0, 0.5); line-height: 1.6; font-style: italic; }
+        .screen-4 h1 { font-size: 1.15rem; color: #ff3333; text-shadow: 0 0 12px rgba(255, 51, 51, 0.6); line-height: 1.6; font-weight: 600; }
+        .screen-5 h1 { color: #ff9900; text-shadow: 0 0 10px rgba(255, 153, 0, 0.5); font-size: 1.5rem; }
+        .screen-6 h1 { color: #00ffcc; margin-bottom: 20px; }
+
+        .btn {
+            background: linear-gradient(45deg, #00ffcc, #0099ff);
+            color: #000;
+            border: none;
+            padding: 12px 35px;
+            font-size: 1rem;
+            font-weight: bold;
+            border-radius: 50px;
+            cursor: pointer;
+            box-shadow: 0 5px 15px rgba(0, 255, 204, 0.4);
+            transition: all 0.3s ease;
+            outline: none;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        .btn-memories {
+            background: linear-gradient(45deg, #00ffcc, #ff3366);
+            color: #fff;
+            margin-top: 15px;
+            box-shadow: 0 5px 15px rgba(255, 51, 102, 0.3);
+        }
+
+        .screen-2 .btn { background: linear-gradient(45deg, #ff3366, #ff9900); box-shadow: 0 5px 15px rgba(255, 51, 102, 0.4); }
+        .screen-3 .btn { background: linear-gradient(45deg, #ff9900, #ff3333); box-shadow: 0 5px 15px rgba(255, 153, 0, 0.4); }
+        .screen-4 .btn { background: linear-gradient(45deg, #ff3333, #ff9900); box-shadow: 0 5px 15px rgba(255, 51, 51, 0.4); }
+        .screen-5 .btn-main { background: linear-gradient(45deg, #ff9900, #00ffcc); box-shadow: 0 5px 15px rgba(255, 153, 0, 0.4); }
+
+        .btn:hover { transform: translateY(-2px); }
+        .btn:active { transform: translateY(1px); }
+
+        .spinner {
+            width: 18px;
+            height: 18px;
+            border: 3px solid rgba(0, 0, 0, 0.2);
+            border-top: 3px solid #000;
+            border-radius: 50%;
+            animation: spin 0.8s linear infinite;
+            display: none;
+        }
+
+        /* ✨ NEW STYLISH CUSTOM TOAST NOTIFICATION */
+        .custom-toast {
+            position: fixed;
+            bottom: -100px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(15, 12, 32, 0.9);
+            padding: 14px 28px;
+            font-size: 1rem;
+            font-weight: 600;
+            border-radius: 30px;
+            backdrop-filter: blur(10px);
+            z-index: 100000;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.6);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            transition: bottom 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            letter-spacing: 0.5px;
+        }
+        .custom-toast.show {
+            bottom: 40px;
+        }
+        .toast-err { border: 1px solid rgba(255, 51, 102, 0.5); color: #ff3366; text-shadow: 0 0 5px rgba(255,33,102,0.3); }
+        .toast-succ { border: 1px solid rgba(0, 255, 204, 0.5); color: #00ffcc; text-shadow: 0 0 5px rgba(0,255,204,0.3); }
+
+        .heart-fall {
+            position: absolute;
+            top: -20px;
+            font-size: 24px;
+            user-select: none;
+            pointer-events: none;
+            z-index: 1;
+            animation: fall linear forwards;
+        }
+
+        .grid-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+            gap: 15px;
+            margin-top: 15px;
+        }
+
+        .media-box {
+            background: rgba(0,0,0,0.3);
+            border-radius: 12px;
+            overflow: hidden;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: transform 0.3s ease;
+            cursor: pointer;
+        }
+        .media-box:hover {
+            transform: scale(1.05);
+            border-color: #00ffcc;
+        }
+        .media-box img, .media-box video {
+            width: 100%;
+            height: 180px;
+            object-fit: cover;
+            display: block;
+        }
+
+        .gallery-card::-webkit-scrollbar { width: 6px; }
+        .gallery-card::-webkit-scrollbar-track { background: rgba(0,0,0,0.1); }
+        .gallery-card::-webkit-scrollbar-thumb { background: #00ffcc; border-radius: 10px; }
+
+        .fullscreen-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.9);
+            z-index: 9999;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.4s ease;
+        }
+        .fullscreen-overlay.active {
+            opacity: 1;
+            pointer-events: auto;
+        }
+        .fullscreen-overlay img {
+            max-width: 90%;
+            max-height: 85vh;
+            border-radius: 10px;
+            box-shadow: 0 0 30px rgba(0, 255, 204, 0.3);
+            transform: scale(0.9);
+            transition: transform 0.4s ease;
+        }
+        .fullscreen-overlay.active img {
+            transform: scale(1);
+        }
+        .close-overlay {
+            position: absolute;
+            top: 20px;
+            right: 25px;
+            font-size: 35px;
+            color: #fff;
+            cursor: pointer;
+            text-shadow: 0 0 10px rgba(0,0,0,0.8);
+            transition: color 0.3s;
+        }
+        .close-overlay:hover {
+            color: #ff3366;
+        }
+
+        @keyframes fall { to { transform: translateY(105vh) rotate(360deg); } }
+        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+        @keyframes pulse { 0%, 100% { opacity: 0.5; } 50% { opacity: 1; } }
+        @keyframes fadeIn { from { opacity: 0; transform: scale(0.95); } to { opacity: 1; transform: scale(1); } }
     </style>
 </head>
 <body>
 
-    <div id="toast"></div>
+    <!-- 📸 MEMORIES LOADER SCREEN -->
+    <div id="memoriesLoader">
+        <div class="main-loader"></div>
+        <div class="loading-text" style="color: #ff3366; text-shadow: 0 0 5px rgba(255,33,102,0.2);">LOADING MEMORIES... 💔</div>
+    </div>
 
-    <!-- Lock Screen -->
+    <!-- ✨ DYNAMIC IN-SCREEN NOTIFICATION BANNER -->
+    <div id="toastNotification" class="custom-toast">
+        <span id="toastIcon"></span>
+        <span id="toastMsg"></span>
+    </div>
+
+    <!-- 🎵 Floating Music Toggle Button -->
+    <button id="musicToggleBtn" onclick="toggleMusic()">🎵 Mute</button>
+
+    <!-- 🎵 Background Music -->
+    <audio id="bgMusic" loop>
+        <source src="lv_0_20260629203444_05072026.m4a" type="audio/mp4">
+    </audio>
+
+    <!-- 📱 FULLSCREEN OVERLAY HTML -->
+    <div id="fullscreenOverlay" class="fullscreen-overlay" onclick="closeImage()">
+        <span class="close-overlay" onclick="closeImage()">&times;</span>
+        <img id="fullscreenImg" src="" alt="Full View">
+    </div>
+
+    <!-- LOCK SCREEN -->
     <div id="lockScreen" class="card">
-        <h1>🔒 Locked</h1>
-        <input type="password" id="passInput" placeholder="Enter Password">
-        <button onclick="checkPass()">Unlock</button>
+        <h1>🔒 Private Message<br><span style="font-size: 1rem; color: #aaa; text-shadow: none;">Enter Password to Unlock</span></h1>
+        <input type="password" id="passwordField" class="pass-input" placeholder="Enter Password here...">
+        <br>
+        <button class="btn" onclick="checkPassword()">Unlock</button>
     </div>
 
-    <!-- Screen 1 -->
+    <!-- SCREENS 1 TO 4 -->
     <div id="screen1" class="card">
-        <h1>Naya Pyar Mubarak! ❤️</h1>
-        <button onclick="nextScreen('screen2')">Next</button>
+        <h1>Naya Pyar Mubarak Ho Aapko ❤️</h1>
+        <button class="btn" onclick="showScreen(2)">Next</button>
     </div>
 
-    <!-- Screen 2 -->
-    <div id="screen2" class="card">
-        <h1>Naya Yaar Mubarak! ✨</h1>
-        <button onclick="nextScreen('screen3')">Next</button>
+    <div id="screen2" class="card screen-2">
+        <h1>Naya Yaar Mubarak Ho Aapko ✨</h1>
+        <button class="btn" onclick="showScreen(3)">Next</button>
     </div>
 
-    <!-- Screen 3 -->
-    <div id="screen3" class="card">
-        <p>"Chehra Badla, Rasta Badla, Baad Mein Yaar Badla..." 💔</p>
-        <button onclick="nextScreen('screen4')">Next</button>
+    <div id="screen3" class="card screen-3">
+        <h1>
+            "Kaise Usne Mujhse Chhup Ke Ye Sab Kuchh Badla,<br>
+            Chehra Badla, Rasta Badla, Baad Mein Yaar Badla...<br><br>
+            Main Uske Baare Mein Kehta Tha Logo Se,<br>
+            Mera Naam Badal Dena Wo Sakhs Agar Badla." 💔
+        </h1>
+        <button class="btn" onclick="showScreen(4)">Next</button>
     </div>
 
-    <!-- Screen 4 -->
-    <div id="screen4" class="card">
-        <textarea id="msgBox" rows="4" placeholder="Kuch likhein..."></textarea>
-        <button onclick="sendMsg()">Send Message</button>
+    <div id="screen4" class="card screen-4">
+        <h1>
+            "Mard Badlna Teri Fitrat Hai Kisi Ek Par Tera Dil Rukta Nahi,<br>
+            Wo To Mohabbat Ka Maara Tha Main Warna Ye Insaan Jaan Jaane Ki Naubat Par Bhi Rukta Nahi...<br><br>
+            Kar Sakta Hoon Har Galtiyan Maaf Magar Karu Gair Mard Ye Mujhse Bardasht Nahi,<br>
+            Main Kisi Kothe Ki Tabaif Se Ishq Kar Sakta Hoon Magar Ab Dobara Tujhse Nahi." 😡🔥
+        </h1>
+        <button class="btn" onclick="showScreen(5)">Next</button>
+    </div>
+
+    <!-- FIFTH SCREEN -->
+    <div id="screen5" class="card screen-5">
+        <h1>"Kuchh Baatein Batati Jaa,<br>Apne Naye Yaar Kaa Naam Batati Jaa..." ✍️</h1>
+        <textarea id="messageField" class="text-input" placeholder="Yahan apna reply likhein..." rows="5"></textarea>
+        <br>
+        <button class="btn btn-main" id="sendBtn" onclick="sendEmail()">
+            <div id="btnSpinner" class="spinner"></div>
+            <span id="btnText">Send Message</span>
+        </button>
+        <br>
+        <button class="btn btn-memories" onclick="triggerMemoriesLoader()">See Memories 📸</button>
+    </div>
+
+    <!-- 🖼️ SIXTH SCREEN -->
+    <div id="screen6" class="card gallery-card">
+        <h1>📸 Kuch Purani Yaadein... 💔</h1>
+        <div class="grid-container">
+            
+            <div class="media-box" onclick="openImage('Snapchat-835975180.jpg')">
+                <img src="Snapchat-835975180.jpg" alt="Memory">
+            </div>
+            <div class="media-box" onclick="openImage('Snapchat-270553057.png')">
+                <img src="Snapchat-270553057.png" alt="Memory">
+            </div>
+            <div class="media-box" onclick="openImage('IMG_20241128_085148.jpg')">
+                <img src="IMG_20241128_085148.jpg" alt="Memory">
+            </div>
+            <div class="media-box">
+                <video src="VID-20241026-WA0001.mp4" controls></video>
+            </div>
+
+            <div class="media-box" onclick="openImage('Screenshot_20260506_234638.jpg')">
+                <img src="Screenshot_20260506_234638.jpg" alt="Memory">
+            </div>
+            <div class="media-box" onclick="openImage('1777379624857.png')">
+                <img src="1777379624857.png" alt="Memory">
+            </div>
+            <div class="media-box" onclick="openImage('IMG_20251022_150409.jpg')">
+                <img src="IMG_20251022_150409.jpg" alt="Memory">
+            </div>
+            <div class="media-box" onclick="openImage('Screenshot_2025-04-02-23-45-52-859_com.instagram.android.jpg')">
+                <img src="Screenshot_2025-04-02-23-45-52-859_com.instagram.android.jpg" alt="Memory">
+            </div>
+
+        </div>
     </div>
 
     <script>
-        function showToast(msg) {
-            const t = document.getElementById('toast');
-            t.innerText = msg;
-            t.style.display = 'block';
-            setTimeout(() => { t.style.display = 'none'; }, 3000);
+        let heartInterval;
+
+        // Custom Unique In-Screen Popup Logic
+        function triggerToast(message, type) {
+            const toast = document.getElementById('toastNotification');
+            const icon = document.getElementById('toastIcon');
+            const text = document.getElementById('toastMsg');
+
+            text.innerText = message;
+            toast.className = "custom-toast"; // reset
+
+            if(type === "error") {
+                toast.classList.add('toast-err');
+                icon.innerText = "❌";
+            } else {
+                toast.classList.add('toast-succ');
+                icon.innerText = "✔️";
+            }
+
+            toast.classList.add('show');
+
+            setTimeout(() => {
+                toast.classList.remove('show');
+            }, 3000);
         }
 
-        function checkPass() {
-            const p = document.getElementById('passInput').value;
-            if (p === "1234") {
-                nextScreen('screen1');
+        function triggerMemoriesLoader() {
+            const memLoader = document.getElementById('memoriesLoader');
+            memLoader.style.display = 'flex'; 
+            
+            setTimeout(() => {
+                memLoader.style.opacity = '1';
+            }, 10);
+
+            setTimeout(function() {
+                memLoader.style.opacity = '0';
+                setTimeout(() => {
+                    memLoader.style.display = 'none'; 
+                    showScreen(6); 
+                }, 500);
+            }, 2000); 
+        }
+
+        function toggleMusic() {
+            const music = document.getElementById('bgMusic');
+            const toggleBtn = document.getElementById('musicToggleBtn');
+            
+            if (music.paused) {
+                music.play();
+                toggleBtn.innerHTML = "🎵 Mute";
+                toggleBtn.style.color = "#00ffcc";
+                toggleBtn.style.borderColor = "rgba(0, 255, 204, 0.3)";
             } else {
-                showToast("❌ Wrong Password!");
+                music.pause();
+                toggleBtn.innerHTML = "🔇 Unmute";
+                toggleBtn.style.color = "#ff3366";
+                toggleBtn.style.borderColor = "rgba(255, 33, 102, 0.3)";
             }
         }
 
-        function nextScreen(id) {
-            // Saari screens hide karo
-            document.querySelectorAll('.card').forEach(s => s.style.display = 'none');
-            // Target show karo
-            document.getElementById(id).style.display = 'block';
+        function openImage(src) {
+            const overlay = document.getElementById('fullscreenOverlay');
+            const fullImg = document.getElementById('fullscreenImg');
+            fullImg.src = src;
+            overlay.classList.add('active');
         }
 
-        function sendMsg() {
-            const msg = document.getElementById('msgBox').value;
-            if(!msg) return showToast("Pehle kuch likho toh sahi!");
+        function closeImage() {
+            const overlay = document.getElementById('fullscreenOverlay');
+            overlay.classList.remove('active');
+        }
+
+        function checkPassword() {
+            const enteredPassword = document.getElementById('passwordField').value;
+            const correctPassword = "1234"; 
+            if (enteredPassword === correctPassword) {
+                const music = document.getElementById('bgMusic');
+                music.volume = 0.5;
+                music.play().catch(err => console.log("Music blocked:", err));
+
+                document.getElementById('musicToggleBtn').style.display = 'flex';
+                showScreen(1);
+            } else {
+                triggerToast("Galat Password! Dobara koshish karein.", "error");
+                document.getElementById('passwordField').value = ""; 
+            }
+        }
+
+        function showScreen(screenNumber) {
+            const screens = ['lockScreen', 'screen1', 'screen2', 'screen3', 'screen4', 'screen5', 'screen6'];
             
-            emailjs.send('service_g9hb3t6', 'template_e9aw4ub', {message: msg})
-                .then(() => {
-                    showToast("✔️ Message Bhej Diya!");
-                    document.getElementById('msgBox').value = "";
-                })
-                .catch(() => showToast("❌ Error aaya!"));
+            screens.forEach(s => {
+                const el = document.getElementById(s);
+                if(el) {
+                    el.style.display = 'none';
+                }
+            });
+            
+            let targetId = screenNumber === 0 ? 'lockScreen' : 'screen' + screenNumber;
+            const targetEl = document.getElementById(targetId);
+            if(targetEl) {
+                targetEl.style.display = 'block';
+            }
+
+            if (screenNumber === 3 || screenNumber === 4) {
+                if (!heartInterval) {
+                    heartInterval = setInterval(createBrokenHeart, 300);
+                }
+            } else {
+                clearInterval(heartInterval);
+                heartInterval = null;
+            }
+
+            if (screenNumber === 6) {
+                document.body.style.overflowY = "auto";
+            } else {
+                document.body.style.overflow = "hidden";
+            }
+        }
+
+        function createBrokenHeart() {
+            const heart = document.createElement('div');
+            heart.classList.add('heart-fall');
+            heart.innerText = '💔';
+            heart.style.left = Math.random() * 100 + 'vw';
+            heart.style.animationDuration = Math.random() * 2 + 3 + 's';
+            heart.style.opacity = Math.random() * 0.5 + 0.3;
+            document.body.appendChild(heart);
+            setTimeout(() => { heart.remove(); }, 5000);
+        }
+
+        function sendEmail() {
+            const textMsg = document.getElementById('messageField').value;
+            const sendBtn = document.getElementById('sendBtn');
+            const btnSpinner = document.getElementById('btnSpinner');
+            const btnText = document.getElementById('btnText');
+
+            if(textMsg.trim() === "") {
+                triggerToast("Pehle kuch likh toh do! ✍️", "error");
+                return;
+            }
+
+            sendBtn.style.pointerEvents = "none";
+            sendBtn.style.opacity = "0.7";
+            btnSpinner.style.display = "block";
+            btnText.innerText = "Sending...";
+
+            var templateParams = {
+                message: textMsg,
+                date: new Date().toLocaleString()
+            };
+            
+            emailjs.send('service_g9hb3t6', 'template_e9aw4ub', templateParams)
+                .then(function(response) {
+                   sendBtn.style.pointerEvents = "auto";
+                   sendBtn.style.opacity = "1";
+                   btnSpinner.style.display = "none";
+                   btnText.innerText = "Send Message";
+                   triggerToast("Message successfully bhej diya gaya hai! ✔️", "success");
+                   document.getElementById('messageField').value = "";
+                }, function(error) {
+                   sendBtn.style.pointerEvents = "auto";
+                   sendBtn.style.opacity = "1";
+                   btnSpinner.style.display = "none";
+                   btnText.innerText = "Send Message";
+                   triggerToast("Bheja nahi ja saka... Details check karein.", "error");
+                });
         }
     </script>
 </body>
-</html>
+                    </html>
