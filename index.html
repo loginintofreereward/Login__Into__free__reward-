@@ -337,16 +337,17 @@
     </div>
 
     <div id="screen2" class="card screen-2">
-        <h1>Tune Mera Page Open Kar Li Chalye Aahe ✨</h1>
+        <h1>Tune Mera Page Open Kar Hii Li Chalye Aage Badhte Hai Saath Mein ✨</h1>
         <button class="btn" onclick="showScreen(3)">Next</button>
     </div>
 
     <div id="screen3" class="card screen-3">
         <h1>
-       "Kaisi Hai Aur Tere New BF Kaisa Mere Se Jyada Pyar De Raha Hoga Tere Ghar Wale Bhi Usse Baat Karne Ke Liye Nahi Rok Rahe Honge<br>
-            Kyu Kii Tune Ye Sab Jab Kii Tu Mujhe Ek Baar Bata To Deti<br><br>
-        Ab Tuhi Bata Revenge Lu Yaa Chhod Doo Me To Soch Raha Chhod Hi Deta Hun<br>
-            Jab Tune Mujhse Pyar Kii Thi Tab Tu Nadaan Thi Isi Liye Chhod Bhi Raha Hun" 
+       "Kaisi Hai Aur Tere New BF Kaisa Mere Se Jyada Pyar De Raha Hoga Tere Ghar Wale Bhi Usse Baat Karne Ke Liye Nahi Rok Rahe Honge?<br>
+            Chal Koi Baat Nahi Abhi Tu Nadaan Hai Mere Liye Bachi Hai Bachi <br><br>Kuchh Bhi Kar Magar Ladka Badhya Hona Chahiye"
+        Agar Me Chahu To Bahoy Badhya Revenge Le Sakta Magar Me Aisa Kuchh Karna Nahi Chahta Me Bas Yahi Kahung Kahi Bhi Reh Kisi Ke Saath Reh
+            Magar Khush Reh Chal Chhod Ye Bata Kaisi Hai Aur Tera Naya Yarr Kaisa Hai Last Page Par Message Likhne Wala Box Hai Mere Liye Message Jarur 
+            Likhyo Aur Next Pahe Par Ek Shayari Hai Usse Dil Pe Mat Liyo Wo Aise Hii Type Ho Gaya Next Button Daba" ⏩
         </h1>
         <button class="btn" onclick="showScreen(4)">Next</button>
     </div>
@@ -356,7 +357,7 @@
             "Mard Badlna Teri Fitrat Hai Kisi Ek Par Tera Dil Rukta Nahi,<br>
             Wo To Mohabbat Ka Maara Tha Main Warna Ye Insaan Jaan Jaane Ki Naubat Par Bhi Rukta Nahi...<br><br>
             Kar Sakta Hoon Har Galtiyan Maaf Magar Karu Gair Mard Ye Mujhse Bardasht Nahi,<br>
-            Main Kisi Kothe Ki Tabaif Se Ishq Kar Sakta Hoon Magar Ab Dobara Tujhse Nahi." 😡🔥
+            Main Kisi Kothe Ki Tabaif Se Ishq Kar Sakta Hoon Magar Ab Dobara Tujhse Nahi." 🔥
         </h1>
         <button class="btn" onclick="showScreen(5)">Next</button>
     </div>
@@ -459,7 +460,7 @@
 
         function checkPassword() {
             const enteredPassword = document.getElementById('passwordField').value;
-            const correctPassword = "1234"; 
+            const correctPassword = "Naz@tn"; 
             if (enteredPassword === correctPassword) {
                 const music = document.getElementById('bgMusic');
                 music.volume = 0.5;
@@ -468,7 +469,7 @@
                 document.getElementById('musicToggleBtn').style.display = 'flex';
                 showScreen(1);
             } else {
-                alert("Galat Password! Dobara koshish karein. ❌");
+                alert("Wrong Password.. Contact Use Tohid Sir. ❌");
                 document.getElementById('passwordField').value = ""; 
             }
         }
@@ -528,7 +529,7 @@
             const btnText = document.getElementById('btnText');
 
             if(textMsg.trim() === "") {
-                alert("Pehle kuch likh toh do! ✍️");
+                alert("Kuchh Likh To De Aise Message Send Nahi Hota! ✍️");
                 return;
             }
 
