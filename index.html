@@ -23,8 +23,8 @@
         }
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            /* Default background style with dynamic transition */
-            background: #0f0c20;
+            background: #0f0c20; 
+            background: linear-gradient(to right, #141026, #0f0c20, #06040a);
             color: #ffffff;
             display: flex;
             justify-content: center;
@@ -34,72 +34,6 @@
             text-align: center;
             position: relative;
             overflow: hidden;
-            transition: background 0.8s ease-in-out, background-image 0.8s ease-in-out;
-        }
-
-        /* DYNAMIC BACKGROUND STYLES FOR EACH SCREEN */
-        body.bg-lockScreen {
-            background: radial-gradient(circle at center, #1b182b 0%, #090714 100%);
-            background-image: radial-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 0);
-            background-size: 24px 24px;
-        }
-        body.bg-screen1 {
-            background: linear-gradient(135deg, #160a20 0%, #08030f 100%);
-        }
-        body.bg-screen2 {
-            background: linear-gradient(135deg, #0d1b2a 0%, #010811 100%);
-        }
-        body.bg-screen3 {
-            background: radial-gradient(circle at center, #240b17 0%, #0a0207 100%);
-        }
-        body.bg-screen4 {
-            background: linear-gradient(135deg, #2d0808 0%, #0a0101 100%);
-        }
-        body.bg-screen5 {
-            background: radial-gradient(circle at center, #1c1405 0%, #070501 100%);
-        }
-        body.bg-screen6 {
-            background: linear-gradient(135deg, #0c1c1a 0%, #020807 100%);
-        }
-
-        /* 📸 UNIQUE CUSTOM POPUP STYLE */
-        #uniqueAlert {
-            position: fixed;
-            top: -100px;
-            left: 50%;
-            transform: translateX(-50%);
-            background: rgba(255, 255, 255, 0.05);
-            backdrop-filter: blur(15px);
-            border: 1px solid rgba(255, 51, 102, 0.4);
-            padding: 15px 30px;
-            border-radius: 30px;
-            color: #fff;
-            font-weight: 600;
-            z-index: 100000;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.5), 0 0 20px rgba(255, 51, 102, 0.2);
-            transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            font-size: 1rem;
-            pointer-events: none;
-        }
-        #uniqueAlert.active {
-            top: 30px;
-        }
-        #uniqueAlert.success-style {
-            border-color: rgba(0, 255, 204, 0.4);
-            box-shadow: 0 10px 30px rgba(0,0,0,0.5), 0 0 20px rgba(0, 255, 204, 0.2);
-        }
-
-        /* SHAKE ANIMATION FOR CARD ON WRONG PASSWORD */
-        .shake-card {
-            animation: shake 0.4s ease-in-out;
-        }
-        @keyframes shake {
-            0%, 100% { transform: scale(1); }
-            20%, 60% { transform: translateX(-10px); }
-            40%, 80% { transform: translateX(10px); }
         }
 
         /* 📸 MEMORIES LOADER SCREEN */
@@ -165,7 +99,7 @@
             transform: scale(1.05);
         }
         
-        /* General Card Style */
+        /* Strict Hiding for Dynamic Flow */
         .card {
             background: rgba(255, 255, 255, 0.03);
             padding: 35px 25px;
@@ -181,12 +115,9 @@
             animation: fadeIn 0.5s ease-in-out forwards;
         }
 
-        /* 🔒 REMOVED WHITE OVERLAY FOR LOCKSCREEN CARD */
+        /* Initial Screen visible override */
         #lockScreen {
             display: block; 
-            background: rgba(0, 0, 0, 0.45); /* Darker and clean transparent blend */
-            border: 1px solid rgba(0, 255, 204, 0.15); /* Techy cyan subtle border */
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.7);
         }
 
         .gallery-card {
@@ -369,12 +300,7 @@
         @keyframes fadeIn { from { opacity: 0; transform: scale(0.95); } to { opacity: 1; transform: scale(1); } }
     </style>
 </head>
-<body class="bg-lockScreen">
-
-    <!-- 📸 DYNAMIC UNIQUE ALERT POPUP -->
-    <div id="uniqueAlert">
-        <span id="alertIcon">❌</span> <span id="alertText">Password Galat Hai Yaar!</span>
-    </div>
+<body>
 
     <!-- 📸 MEMORIES LOADER SCREEN -->
     <div id="memoriesLoader">
@@ -417,10 +343,10 @@
 
     <div id="screen3" class="card screen-3">
         <h1>
-            "Kaise Usne Mujhse Chhup Ke Ye Sab Kuchh Badla,<br>
-            Chehra Badla, Rasta Badla, Baad Mein Yaar Badla...<br><br>
-            Main Uske Baare Mein Kehta Tha Logo Se,<br>
-            Mera Naam Badal Dena Wo Sakhs Agar Badla." 💔
+       "Wah Akhir Kaar Tune Mera Page Open Kar Hi Lii Jab Open Kari To Chaliye Aage Badhte Hai<br>
+            Kyu Kii Tune Ye Sab Jab Kii Tu Mujhe Ek Baar Bata To Deti<br><br>
+        Ab Tuhi Bata Revenge Lu Yaa Chhod Doo Me To Soch Raha Chhod Hi Deta Hun<br>
+            Jab Tune Mujhse Pyar Kii Thi Tab Tu Nadaan Thi Isi Liye Chhod Bhi Raha Hun" 
         </h1>
         <button class="btn" onclick="showScreen(4)">Next</button>
     </div>
@@ -437,7 +363,7 @@
 
     <!-- FIFTH SCREEN -->
     <div id="screen5" class="card screen-5">
-        <h1>"Kuchh Baatein Batati Jaa,<br>Apne Naye Yaar Kaa Naam Batati Jaa..." ✍️</h1>
+        <h1>"Ab Bhi Kuchh Bata De Niche,<br>Box Mein Apne Naye Yaar Ka Naam Likh De..." ✍️</h1>
         <textarea id="messageField" class="text-input" placeholder="Yahan apna reply likhein..." rows="5"></textarea>
         <br>
         <button class="btn btn-main" id="sendBtn" onclick="sendEmail()">
@@ -450,7 +376,7 @@
 
     <!-- 🖼️ SIXTH SCREEN -->
     <div id="screen6" class="card gallery-card">
-        <h1>📸 Kuch Purani Yaadein... 💔</h1>
+        <h1>📸 Ye Dekh Teri Fake Photo Video... 💔</h1>
         <div class="grid-container">
             
             <div class="media-box" onclick="openImage('Snapchat-835975180.jpg')">
@@ -484,23 +410,6 @@
 
     <script>
         let heartInterval;
-
-        function launchAlert(icon, text, isSuccess = false) {
-            const alertEl = document.getElementById('uniqueAlert');
-            document.getElementById('alertIcon').innerText = icon;
-            document.getElementById('alertText').innerText = text;
-            
-            if(isSuccess) {
-                alertEl.classList.add('success-style');
-            } else {
-                alertEl.classList.remove('success-style');
-            }
-            
-            alertEl.classList.add('active');
-            setTimeout(() => {
-                alertEl.classList.remove('active');
-            }, 3000);
-        }
 
         function triggerMemoriesLoader() {
             const memLoader = document.getElementById('memoriesLoader');
@@ -551,8 +460,6 @@
         function checkPassword() {
             const enteredPassword = document.getElementById('passwordField').value;
             const correctPassword = "1234"; 
-            const lockCard = document.getElementById('lockScreen');
-
             if (enteredPassword === correctPassword) {
                 const music = document.getElementById('bgMusic');
                 music.volume = 0.5;
@@ -561,15 +468,13 @@
                 document.getElementById('musicToggleBtn').style.display = 'flex';
                 showScreen(1);
             } else {
-                lockCard.classList.add('shake-card');
-                launchAlert("❌", "Galat Password! Dobara koshish karein.");
-                
-                setTimeout(() => { lockCard.classList.remove('shake-card'); }, 400);
+                alert("Galat Password! Dobara koshish karein. ❌");
                 document.getElementById('passwordField').value = ""; 
             }
         }
 
         function showScreen(screenNumber) {
+            // Target all possible screen elements strictly by ID
             const screens = ['lockScreen', 'screen1', 'screen2', 'screen3', 'screen4', 'screen5', 'screen6'];
             
             screens.forEach(s => {
@@ -582,14 +487,11 @@
             let targetId = screenNumber === 0 ? 'lockScreen' : 'screen' + screenNumber;
             const targetEl = document.getElementById(targetId);
             if(targetEl) {
-                targetEl.style.display = 'block';
-            }
-
-            document.body.className = '';
-            if (screenNumber === 0) {
-                document.body.classList.add('bg-lockScreen');
-            } else {
-                document.body.classList.add('bg-screen' + screenNumber);
+                if(screenNumber === 6) {
+                    targetEl.style.display = 'block'; // Gallery layout handler
+                } else {
+                    targetEl.style.display = 'block';
+                }
             }
 
             if (screenNumber === 3 || screenNumber === 4) {
@@ -626,7 +528,7 @@
             const btnText = document.getElementById('btnText');
 
             if(textMsg.trim() === "") {
-                launchAlert("✍️", "Pehle kuch likh toh do!");
+                alert("Pehle kuch likh toh do! ✍️");
                 return;
             }
 
@@ -646,16 +548,15 @@
                    sendBtn.style.opacity = "1";
                    btnSpinner.style.display = "none";
                    btnText.innerText = "Send Message";
-                   
-                   launchAlert("✔️", "Message successfully bhej diya gaya hai!", true);
+                   alert('Message successfully bhej diya gaya hai! ✔️');
                 }, function(error) {
                    sendBtn.style.pointerEvents = "auto";
                    sendBtn.style.opacity = "1";
                    btnSpinner.style.display = "none";
                    btnText.innerText = "Send Message";
-                   launchAlert("❌", "Bheja nahi ja saka... Details check karein.");
+                   alert('Bheja nahi ja saka... Details check karein.');
                 });
         }
     </script>
 </body>
-    </html>
+</html>
