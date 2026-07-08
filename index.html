@@ -36,7 +36,7 @@
             overflow: hidden;
         }
 
-        /* 📹 BACKGROUND VIDEO STYLING ADDED HERE */
+        /* 📹 BACKGROUND VIDEO STYLING */
         #bgVideo {
             position: fixed;
             right: 0;
@@ -45,7 +45,7 @@
             min-height: 100%;
             width: auto;
             height: auto;
-            z-index: -100; /* Isse video hamesha piche rahegi */
+            z-index: -100; /* Isse video hamesha sabse piche rahegi */
             object-fit: cover;
             pointer-events: none;
         }
@@ -113,7 +113,7 @@
             transform: scale(1.05);
         }
         
-        /* Strict Hiding for Dynamic Flow */
+        /* Card Styles */
         .card {
             background: rgba(255, 255, 255, 0.03);
             padding: 35px 25px;
@@ -125,11 +125,10 @@
             width: 440px;
             position: relative;
             z-index: 10;
-            display: none; /* Default Hidden */
+            display: none; 
             animation: fadeIn 0.5s ease-in-out forwards;
         }
 
-        /* Initial Screen visible override */
         #lockScreen {
             display: block; 
         }
@@ -317,12 +316,9 @@
 <body>
 
     <!-- 🌐 YAHAN APNI VIDEO KA FILENAME UPDATE KARNA HAI 👇 -->
-    
     <video autoplay loop muted playsinline id="bgVideo">
-        <source src=https://www.instagram.com/reel/DXlNjjVDPxV/?igsh=MTBkaXh2djk5Ynpiag==
+        <source src=reel_create___Mr.___Mrs._Smith,_starring_Angelina_Jolie_and_Brad_Pitt._The_film_follows_a_bored_married_couple_who_are_surprised_to_learn_that_they_ar.mp4
     </video>
-    
-    <!-- 👆 GAP CHHOD DIYA HAI, BAS APNI_VIDEO_KA_NAAM.mp4 KO BADAL LENA -->
 
     <!-- 📸 MEMORIES LOADER SCREEN -->
     <div id="memoriesLoader">
@@ -581,4 +577,4 @@
         }
     </script>
 </body>
-        </html>
+    </html>
