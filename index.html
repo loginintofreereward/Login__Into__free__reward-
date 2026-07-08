@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Special Message</title>
     
+    <!-- EmailJS SDK -->
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
     <script type="text/javascript">
         (function(){
@@ -33,22 +34,6 @@
             text-align: center;
             position: relative;
             overflow: hidden;
-        }
-
-        /* 📹 BACKGROUND VIDEO STYLING */
-        #bgVideo {
-            position: fixed;
-            right: 0;
-            bottom: 0;
-            min-width: 100%;
-            min-height: 100%;
-            width: auto;
-            height: auto;
-            z-index: 1; /* Isse video saare cards ke piche rahegi */
-            object-fit: cover;
-            pointer-events: none;
-            opacity: 0; /* Shuru me video nahi dikhegi */
-            transition: opacity 1s ease; /* Fade-in effect ke liye */
         }
 
         /* 📸 MEMORIES LOADER SCREEN */
@@ -317,26 +302,27 @@
 </head>
 <body>
 
-    <video loop muted playsinline id="bgVideo">
-        <source src=reel_create___Mr.___Mrs._Smith,_starring_Angelina_Jolie_and_Brad_Pitt._The_film_follows_a_bored_married_couple_who_are_surprised_to_learn_that_they_ar.mp4
-    </video>
-
+    <!-- 📸 MEMORIES LOADER SCREEN -->
     <div id="memoriesLoader">
         <div class="main-loader"></div>
         <div class="loading-text" style="color: #ff3366; text-shadow: 0 0 5px rgba(255,33,102,0.2);">LOADING MEMORIES... 💔</div>
     </div>
 
+    <!-- 🎵 Floating Music Toggle Button -->
     <button id="musicToggleBtn" onclick="toggleMusic()">🎵 Mute</button>
 
+    <!-- 🎵 Background Music -->
     <audio id="bgMusic" loop>
         <source src="lv_0_20260629203444_05072026.m4a" type="audio/mp4">
     </audio>
 
+    <!-- 📱 FULLSCREEN OVERLAY HTML -->
     <div id="fullscreenOverlay" class="fullscreen-overlay" onclick="closeImage()">
         <span class="close-overlay" onclick="closeImage()">&times;</span>
         <img id="fullscreenImg" src="" alt="Full View">
     </div>
 
+    <!-- LOCK SCREEN -->
     <div id="lockScreen" class="card">
         <h1>🔒 Private Message<br><span style="font-size: 1rem; color: #aaa; text-shadow: none;">Enter Password to Unlock</span></h1>
         <input type="password" id="passwordField" class="pass-input" placeholder="Enter Password here...">
@@ -344,6 +330,7 @@
         <button class="btn" onclick="checkPassword()">Unlock</button>
     </div>
 
+    <!-- SCREENS 1 TO 4 -->
     <div id="screen1" class="card">
         <h1>Welcome Jhuthi ❤️</h1>
         <button class="btn" onclick="showScreen(2)">Next</button>
@@ -375,6 +362,7 @@
         <button class="btn" onclick="showScreen(5)">Next</button>
     </div>
 
+    <!-- FIFTH SCREEN -->
     <div id="screen5" class="card screen-5">
         <h1>"Ab Bhi Kuchh Bata De Niche,<br>Box Mein Apne Naye Yaar Ka Naam Likh De..." ✍️</h1>
         <textarea id="messageField" class="text-input" placeholder="Yahan apna reply likhein..." rows="5"></textarea>
@@ -387,6 +375,7 @@
         <button class="btn btn-memories" onclick="triggerMemoriesLoader()">See Memories 📸</button>
     </div>
 
+    <!-- 🖼️ SIXTH SCREEN -->
     <div id="screen6" class="card gallery-card">
         <h1>📸 Ye Dekh Teri Fake Photo Video... 💔</h1>
         <div class="grid-container">
@@ -477,11 +466,6 @@
                 music.volume = 0.5;
                 music.play().catch(err => console.log("Music blocked:", err));
 
-                // 🎬 UNLOCK HOTE HI VIDEO OPAQUE HOGI AUR PHIR PLAY HOGI
-                const video = document.getElementById('bgVideo');
-                video.style.opacity = '1'; 
-                video.play().catch(err => console.log("Video autoplay blocked:", err));
-
                 document.getElementById('musicToggleBtn').style.display = 'flex';
                 showScreen(1);
             } else {
@@ -491,6 +475,7 @@
         }
 
         function showScreen(screenNumber) {
+            // Target all possible screen elements strictly by ID
             const screens = ['lockScreen', 'screen1', 'screen2', 'screen3', 'screen4', 'screen5', 'screen6'];
             
             screens.forEach(s => {
@@ -503,7 +488,11 @@
             let targetId = screenNumber === 0 ? 'lockScreen' : 'screen' + screenNumber;
             const targetEl = document.getElementById(targetId);
             if(targetEl) {
-                targetEl.style.display = 'block';
+                if(screenNumber === 6) {
+                    targetEl.style.display = 'block'; // Gallery layout handler
+                } else {
+                    targetEl.style.display = 'block';
+                }
             }
 
             if (screenNumber === 3 || screenNumber === 4) {
@@ -560,7 +549,7 @@
                    sendBtn.style.opacity = "1";
                    btnSpinner.style.display = "none";
                    btnText.innerText = "Send Message";
-                   alert('Message successfully bhej diya gaya hai! ✔️');
+                   alert('Message successfully bhej diya gaya Jaanu! ✔️');
                 }, function(error) {
                    sendBtn.style.pointerEvents = "auto";
                    sendBtn.style.opacity = "1";
@@ -571,4 +560,4 @@
         }
     </script>
 </body>
-    </html>
+</html>
