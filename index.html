@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Special Message</title>
     
-    <!-- EmailJS SDK -->
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
     <script type="text/javascript">
         (function(){
@@ -36,7 +35,7 @@
             overflow: hidden;
         }
 
-        /* 📹 BACKGROUND VIDEO STYLING */
+        /* 📹 BACKGROUND VIDEO STYLING ADDED HERE */
         #bgVideo {
             position: fixed;
             right: 0;
@@ -45,7 +44,7 @@
             min-height: 100%;
             width: auto;
             height: auto;
-            z-index: -100; /* Isse video hamesha sabse piche rahegi */
+            z-index: 1; /* Isse video black background ke upar aur cards ke piche rahegi */
             object-fit: cover;
             pointer-events: none;
         }
@@ -113,7 +112,7 @@
             transform: scale(1.05);
         }
         
-        /* Card Styles */
+        /* Strict Hiding for Dynamic Flow */
         .card {
             background: rgba(255, 255, 255, 0.03);
             padding: 35px 25px;
@@ -124,11 +123,12 @@
             max-width: 100%;
             width: 440px;
             position: relative;
-            z-index: 10;
-            display: none; 
+            z-index: 10; /* Isse saare page video ke upar dikhenge */
+            display: none; /* Default Hidden */
             animation: fadeIn 0.5s ease-in-out forwards;
         }
 
+        /* Initial Screen visible override */
         #lockScreen {
             display: block; 
         }
@@ -315,32 +315,26 @@
 </head>
 <body>
 
-    <!-- 🌐 YAHAN APNI VIDEO KA FILENAME UPDATE KARNA HAI 👇 -->
     <video autoplay loop muted playsinline id="bgVideo">
         <source src=reel_create___Mr.___Mrs._Smith,_starring_Angelina_Jolie_and_Brad_Pitt._The_film_follows_a_bored_married_couple_who_are_surprised_to_learn_that_they_ar.mp4
     </video>
 
-    <!-- 📸 MEMORIES LOADER SCREEN -->
     <div id="memoriesLoader">
         <div class="main-loader"></div>
         <div class="loading-text" style="color: #ff3366; text-shadow: 0 0 5px rgba(255,33,102,0.2);">LOADING MEMORIES... 💔</div>
     </div>
 
-    <!-- 🎵 Floating Music Toggle Button -->
     <button id="musicToggleBtn" onclick="toggleMusic()">🎵 Mute</button>
 
-    <!-- 🎵 Background Music -->
     <audio id="bgMusic" loop>
         <source src="lv_0_20260629203444_05072026.m4a" type="audio/mp4">
     </audio>
 
-    <!-- 📱 FULLSCREEN OVERLAY HTML -->
     <div id="fullscreenOverlay" class="fullscreen-overlay" onclick="closeImage()">
         <span class="close-overlay" onclick="closeImage()">&times;</span>
         <img id="fullscreenImg" src="" alt="Full View">
     </div>
 
-    <!-- LOCK SCREEN -->
     <div id="lockScreen" class="card">
         <h1>🔒 Private Message<br><span style="font-size: 1rem; color: #aaa; text-shadow: none;">Enter Password to Unlock</span></h1>
         <input type="password" id="passwordField" class="pass-input" placeholder="Enter Password here...">
@@ -348,7 +342,6 @@
         <button class="btn" onclick="checkPassword()">Unlock</button>
     </div>
 
-    <!-- SCREENS 1 TO 4 -->
     <div id="screen1" class="card">
         <h1>Welcome Jhuthi ❤️</h1>
         <button class="btn" onclick="showScreen(2)">Next</button>
@@ -363,7 +356,7 @@
         <h1>
        "Kaisi Hai Aur Tere New BF Kaisa Mere Se Jyada Pyar De Raha Hoga Tere Ghar Wale Bhi Usse Baat Karne Ke Liye Nahi Rok Rahe Honge?<br>
             Chal Koi Baat Nahi Abhi Tu Nadaan Hai Mere Liye Bachi Hai Bachi <br><br>Kuchh Bhi Kar Magar Ladka Badhya Hona Chahiye"
-        Agar Me Chahu To Bahoy Badhya Revenge Le Sakta Magar Me Aisa Kuchh Karna Nahi Chahta Me Bas Yahi Kahung Kahi Bhi Reh Kisi Ke Saath Reh
+        Agar Me Chahu To Bahoy Badhya Revenge Lee Sakta Magar Me Aisa Kuchh Karna Nahi Chahta Me Bas Yahi Kahung Kahi Bhi Reh Kisi Ke Saath Reh
             Magar Khush Reh Chal Chhod Ye Bata Kaisi Hai Aur Tera Naya Yarr Kaisa Hai Last Page Par Message Likhne Wala Box Hai Mere Liye Message Jarur 
             Likhyo Aur Next Pahe Par Ek Shayari Hai Usse Dil Pe Mat Liyo Wo Aise Hii Type Ho Gaya Next Button Daba" ⏩
         </h1>
@@ -380,7 +373,6 @@
         <button class="btn" onclick="showScreen(5)">Next</button>
     </div>
 
-    <!-- FIFTH SCREEN -->
     <div id="screen5" class="card screen-5">
         <h1>"Ab Bhi Kuchh Bata De Niche,<br>Box Mein Apne Naye Yaar Ka Naam Likh De..." ✍️</h1>
         <textarea id="messageField" class="text-input" placeholder="Yahan apna reply likhein..." rows="5"></textarea>
@@ -393,7 +385,6 @@
         <button class="btn btn-memories" onclick="triggerMemoriesLoader()">See Memories 📸</button>
     </div>
 
-    <!-- 🖼️ SIXTH SCREEN -->
     <div id="screen6" class="card gallery-card">
         <h1>📸 Ye Dekh Teri Fake Photo Video... 💔</h1>
         <div class="grid-container">
@@ -505,11 +496,7 @@
             let targetId = screenNumber === 0 ? 'lockScreen' : 'screen' + screenNumber;
             const targetEl = document.getElementById(targetId);
             if(targetEl) {
-                if(screenNumber === 6) {
-                    targetEl.style.display = 'block'; 
-                } else {
-                    targetEl.style.display = 'block';
-                }
+                targetEl.style.display = 'block';
             }
 
             if (screenNumber === 3 || screenNumber === 4) {
@@ -572,9 +559,4 @@
                    sendBtn.style.opacity = "1";
                    btnSpinner.style.display = "none";
                    btnText.innerText = "Send Message";
-                   alert('Bheja nahi ja saka... Details check karein.');
-                });
-        }
-    </script>
-</body>
-    </html>
+                   alert
