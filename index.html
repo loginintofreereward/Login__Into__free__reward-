@@ -36,6 +36,20 @@
             overflow: hidden;
         }
 
+        /* 📹 BACKGROUND VIDEO STYLING ADDED HERE */
+        #bgVideo {
+            position: fixed;
+            right: 0;
+            bottom: 0;
+            min-width: 100%;
+            min-height: 100%;
+            width: auto;
+            height: auto;
+            z-index: -100; /* Isse video hamesha piche rahegi */
+            object-fit: cover;
+            pointer-events: none;
+        }
+
         /* 📸 MEMORIES LOADER SCREEN */
         #memoriesLoader {
             position: fixed;
@@ -302,6 +316,14 @@
 </head>
 <body>
 
+    <!-- 🌐 YAHAN APNI VIDEO KA FILENAME UPDATE KARNA HAI 👇 -->
+    
+    <video autoplay loop muted playsinline id="bgVideo">
+        <source src=https://www.instagram.com/reel/DXlNjjVDPxV/?igsh=MTBkaXh2djk5Ynpiag==
+    </video>
+    
+    <!-- 👆 GAP CHHOD DIYA HAI, BAS APNI_VIDEO_KA_NAAM.mp4 KO BADAL LENA -->
+
     <!-- 📸 MEMORIES LOADER SCREEN -->
     <div id="memoriesLoader">
         <div class="main-loader"></div>
@@ -475,7 +497,6 @@
         }
 
         function showScreen(screenNumber) {
-            // Target all possible screen elements strictly by ID
             const screens = ['lockScreen', 'screen1', 'screen2', 'screen3', 'screen4', 'screen5', 'screen6'];
             
             screens.forEach(s => {
@@ -489,7 +510,7 @@
             const targetEl = document.getElementById(targetId);
             if(targetEl) {
                 if(screenNumber === 6) {
-                    targetEl.style.display = 'block'; // Gallery layout handler
+                    targetEl.style.display = 'block'; 
                 } else {
                     targetEl.style.display = 'block';
                 }
@@ -560,4 +581,4 @@
         }
     </script>
 </body>
-</html>
+        </html>
