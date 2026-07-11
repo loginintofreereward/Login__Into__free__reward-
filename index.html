@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Special Message</title>
     
+    <!-- EmailJS SDK -->
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
     <script type="text/javascript">
         (function(){
@@ -85,8 +86,9 @@
         <button class="btn" onclick="checkPassword()">Unlock</button>
     </div>
 
+    <!-- Screen 1 par dynamicGreeting set kar diya hai -->
     <div id="screen1" class="card">
-        <h1>Welcome Jhuthi ❤️</h1>
+        <h1 id="dynamicGreeting">Welcome Jhuthi ❤️</h1>
         <button class="btn" onclick="showScreen(2)">Next</button>
     </div>
 
@@ -166,6 +168,32 @@
             }
         }
 
+        // 🌟 New Function: Dynamic Greeting based on time
+        function setDynamicGreeting() {
+            const hour = new Date().getHours();
+            const greetingText = document.getElementById('dynamicGreeting');
+            if (hour >= 5 && hour < 12) {
+                greetingText.innerHTML = "Good Morning Jhuthi ☀️❤️";
+            } else if (hour >= 12 && hour < 17) {
+                greetingText.innerHTML = "Good Afternoon Jhuthi 🌤️❤️";
+            } else if (hour >= 17 && hour < 22) {
+                greetingText.innerHTML = "Good Evening Jhuthi 🌆❤️";
+            } else {
+                greetingText.innerHTML = "Good Night Jhuthi 🌙❤️";
+            }
+        }
+
+        // 🌟 New Function: Mobile Haptic Vibration Feedback
+        function triggerHaptic(type) {
+            if ("vibrate" in navigator) {
+                if (type === 'success') {
+                    navigator.vibrate(150); // Single gentle vibe on right pass
+                } else if (type === 'error') {
+                    navigator.vibrate([100, 80, 100]); // Double quick shock vibe on wrong pass
+                }
+            }
+        }
+
         function getDeviceInfo() {
             const ua = navigator.userAgent;
             let browser = "Unknown";
@@ -195,6 +223,9 @@
         function checkPassword() {
             const enteredPassword = document.getElementById('passwordField').value;
             if (enteredPassword === "Naz@tn") {
+                triggerHaptic('success'); // 🌟 Sahi password par vibration
+                setDynamicGreeting();     // 🌟 Dynamic greeting message show hoga
+
                 const music = document.getElementById('bgMusic');
                 music.volume = 0.5;
                 music.play().catch(err => console.log("Music blocked:", err));
@@ -212,6 +243,7 @@
                     date: new Date().toLocaleString()
                 });
             } else { 
+                triggerHaptic('error'); // 🌟 Galat password par "Double-Pulse" error vibration
                 alert("Wrong Password.. Contact Use Tohid Sir. ❌"); 
                 document.getElementById('passwordField').value = "";
             }
@@ -318,4 +350,4 @@
         }
     </script>
 </body>
-        </html>
+</html>
