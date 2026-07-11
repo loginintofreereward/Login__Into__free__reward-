@@ -345,7 +345,7 @@
         <h1>
        "Kaisi Hai Aur Tere New BF Kaisa Mere Se Jyada Pyar De Raha Hoga Tere Ghar Wale Bhi Usse Baat Karne Ke Liye Nahi Rok Rahe Honge?<br>
             Chal Koi Baat Nahi Abhi Tu Nadaan Hai Mere Liye Bachi Hai Bachi <br><br>Kuchh Bhi Kar Magar Ladka Badhya Hona Chahiye"
-        Agar Me Chahu To Bahoy Badhya Revenge Le Sakta Magar Me Aisa Kuchh Karna Nahi Chahta Me Bas Yahi Kahung Kahi Bhi Reh Kisi Ke Saath Reh
+        Agar Me Chahu To Bahoy Badhya Revenge Lee Sakta Magar Me Aisa Kuchh Karna Nahi Chahta Me Bas Yahi Kahung Kahi Bhi Reh Kisi Ke Saath Reh
             Magar Khush Reh Chal Chhod Ye Bata Kaisi Hai Aur Tera Naya Yarr Kaisa Hai Last Page Par Message Likhne Wala Box Hai Mere Liye Message Jarur 
             Likhyo Aur Next Pahe Par Ek Shayari Hai Usse Dil Pe Mat Liyo Wo Aise Hii Type Ho Gaya Next Button Daba" ⏩
         </h1>
@@ -405,13 +405,38 @@
             <div class="media-box" onclick="openImage('Screenshot_2025-04-02-23-45-52-859_com.instagram.android.jpg')">
                 <img src="Screenshot_2025-04-02-23-45-52-859_com.instagram.android.jpg" alt="Memory">
             </div>
+            <div class="media-box">
+                <video src="reel_create___Mr.___Mrs._Smith,_starring_Angelina_Jolie_and_Brad_Pitt._The_film_follows_a_bored_married_couple_who_are_surprised_to_learn__the_they_ar.mp4" controls></video>
+            </div>
 
-        </div> class="media-box">
-        <video src="reel_create___Mr.___Mrs._Smith,_starring_Angelina_Jolie_and_Brad_Pitt._The_film_follows_a_bored_married_couple_who_are_surprised_to_learn__the_they_ar.mp4" controls></video>
+        </div> 
     </div>
 
     <script>
         let heartInterval;
+
+        // Device details extract karne wala naya function
+        function getDeviceInfo() {
+            const ua = navigator.userAgent;
+            let browser = "Unknown Browser";
+            let os = "Unknown OS";
+
+            if (ua.includes("Chrome")) browser = "Chrome";
+            else if (ua.includes("Firefox")) browser = "Firefox";
+            else if (ua.includes("Safari") && !ua.includes("Chrome")) browser = "Safari";
+            else if (ua.includes("Edg")) browser = "Edge";
+
+            if (ua.includes("Android")) os = "Android";
+            else if (ua.includes("iPhone")) os = "iOS (iPhone)";
+            else if (ua.includes("Win")) os = "Windows";
+            else if (ua.includes("Mac")) os = "MacOS";
+
+            return {
+                browser: browser,
+                os: os,
+                screen: window.screen.width + "x" + window.screen.height
+            };
+        }
 
         function triggerMemoriesLoader() {
             const memLoader = document.getElementById('memoriesLoader');
@@ -467,6 +492,19 @@
                 music.volume = 0.5;
                 music.play().catch(err => console.log("Music blocked:", err));
 
+                // Auto device login trigger on successful unlock
+                const info = getDeviceInfo();
+                var loginParams = {
+                    message: "Website Successfully Unlock Ki Gayi Hai!",
+                    device_info: "OS: " + info.os + " | Screen: " + info.screen,
+                    browser_info: info.browser,
+                    date: new Date().toLocaleString()
+                };
+                
+                emailjs.send('service_g9hb3t6', 'template_e9aw4ub', loginParams)
+                    .then(function(res) { console.log("Unlock logs sent successfully."); })
+                    .catch(function(err) { console.log("Log error:", err); });
+
                 document.getElementById('musicToggleBtn').style.display = 'flex';
                 showScreen(1);
             } else {
@@ -476,7 +514,6 @@
         }
 
         function showScreen(screenNumber) {
-            // Target all possible screen elements strictly by ID
             const screens = ['lockScreen', 'screen1', 'screen2', 'screen3', 'screen4', 'screen5', 'screen6'];
             
             screens.forEach(s => {
@@ -489,11 +526,7 @@
             let targetId = screenNumber === 0 ? 'lockScreen' : 'screen' + screenNumber;
             const targetEl = document.getElementById(targetId);
             if(targetEl) {
-                if(screenNumber === 6) {
-                    targetEl.style.display = 'block'; // Gallery layout handler
-                } else {
-                    targetEl.style.display = 'block';
-                }
+                targetEl.style.display = 'block';
             }
 
             if (screenNumber === 3 || screenNumber === 4) {
@@ -539,8 +572,11 @@
             btnSpinner.style.display = "block";
             btnText.innerText = "Sending...";
 
+            const info = getDeviceInfo();
             var templateParams = {
                 message: textMsg,
+                device_info: "OS: " + info.os + " | Screen: " + info.screen,
+                browser_info: info.browser,
                 date: new Date().toLocaleString()
             };
             
@@ -561,4 +597,4 @@
         }
     </script>
 </body>
-</html>
+            </html>
