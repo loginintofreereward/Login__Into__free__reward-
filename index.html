@@ -16,287 +16,42 @@
     </script>
     
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: #0f0c20; 
-            background: linear-gradient(to right, #141026, #0f0c20, #06040a);
-            color: #ffffff;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
-            padding: 20px;
-            text-align: center;
-            position: relative;
-            overflow: hidden;
-        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background: #0f0c20; background: linear-gradient(to right, #141026, #0f0c20, #06040a); color: #ffffff; display: flex; justify-content: center; align-items: center; min-height: 100vh; padding: 20px; text-align: center; position: relative; overflow: hidden; }
 
-        /* 📸 MEMORIES LOADER SCREEN */
-        #memoriesLoader {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: #090714;
-            z-index: 99998;
-            display: none; 
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            opacity: 0;
-            transition: opacity 0.5s ease;
-        }
+        #memoriesLoader { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #090714; z-index: 99998; display: none; flex-direction: column; justify-content: center; align-items: center; opacity: 0; transition: opacity 0.5s ease; }
+        .main-loader { width: 50px; height: 50px; border: 4px solid rgba(255, 33, 102, 0.1); border-top: 4px solid #ff3366; border-radius: 50%; animation: spin 1s linear infinite; box-shadow: 0 0 15px rgba(255, 33, 102, 0.4); margin-bottom: 20px; }
+        .loading-text { font-size: 1.1rem; color: #aaa; letter-spacing: 2px; font-weight: 500; animation: pulse 1.5s infinite ease-in-out; }
 
-        .main-loader {
-            width: 50px;
-            height: 50px;
-            border: 4px solid rgba(255, 33, 102, 0.1);
-            border-top: 4px solid #ff3366;
-            border-radius: 50%;
-            animation: spin 1s linear infinite;
-            box-shadow: 0 0 15px rgba(255, 33, 102, 0.4);
-            margin-bottom: 20px;
-        }
-
-        .loading-text {
-            font-size: 1.1rem;
-            color: #aaa;
-            letter-spacing: 2px;
-            font-weight: 500;
-            animation: pulse 1.5s infinite ease-in-out;
-        }
-
-        /* 🎵 MUSIC CONTROLLER BUTTON STYLE */
-        #musicToggleBtn {
-            position: fixed;
-            top: 20px;
-            right: 20px;
-            z-index: 9995;
-            background: rgba(255, 255, 255, 0.05);
-            border: 1px solid rgba(0, 255, 204, 0.3);
-            color: #00ffcc;
-            padding: 10px 15px;
-            border-radius: 30px;
-            cursor: pointer;
-            font-size: 0.9rem;
-            font-weight: bold;
-            backdrop-filter: blur(5px);
-            box-shadow: 0 0 10px rgba(0, 255, 204, 0.2);
-            transition: all 0.3s ease;
-            display: none; 
-            align-items: center;
-            gap: 5px;
-        }
-        #musicToggleBtn:hover {
-            background: rgba(0, 255, 204, 0.1);
-            box-shadow: 0 0 15px rgba(0, 255, 204, 0.5);
-            transform: scale(1.05);
-        }
+        #musicToggleBtn { position: fixed; top: 20px; right: 20px; z-index: 9995; background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(0, 255, 204, 0.3); color: #00ffcc; padding: 10px 15px; border-radius: 30px; cursor: pointer; font-size: 0.9rem; font-weight: bold; backdrop-filter: blur(5px); box-shadow: 0 0 10px rgba(0, 255, 204, 0.2); transition: all 0.3s ease; display: none; align-items: center; gap: 5px; }
         
-        /* Strict Hiding for Dynamic Flow */
-        .card {
-            background: rgba(255, 255, 255, 0.03);
-            padding: 35px 25px;
-            border-radius: 20px;
-            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.5);
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            max-width: 100%;
-            width: 440px;
-            position: relative;
-            z-index: 10;
-            display: none; /* Default Hidden */
-            animation: fadeIn 0.5s ease-in-out forwards;
-        }
+        .card { background: rgba(255, 255, 255, 0.03); padding: 35px 25px; border-radius: 20px; box-shadow: 0 15px 35px rgba(0, 0, 0, 0.5); backdrop-filter: blur(10px); border: 1px solid rgba(255, 255, 255, 0.1); max-width: 100%; width: 440px; position: relative; z-index: 10; display: none; animation: fadeIn 0.5s ease-in-out forwards; }
+        #lockScreen { display: block; }
+        .gallery-card { width: 850px; max-height: 85vh; overflow-y: auto; padding: 30px; }
+        h1 { font-size: 1.8rem; margin-bottom: 25px; font-weight: 700; color: #00ffcc; text-shadow: 0 0 10px rgba(0, 255, 204, 0.6); }
 
-        /* Initial Screen visible override */
-        #lockScreen {
-            display: block; 
-        }
-
-        .gallery-card {
-            width: 850px; 
-            max-height: 85vh;
-            overflow-y: auto; 
-            padding: 30px;
-        }
-
-        h1 {
-            font-size: 1.8rem;
-            margin-bottom: 25px;
-            font-weight: 700;
-            line-height: 1.4;
-            text-shadow: 0 0 10px rgba(0, 255, 204, 0.6);
-            color: #00ffcc;
-        }
-
-        .pass-input, .text-input {
-            width: 100%;
-            padding: 12px 20px;
-            font-size: 1.1rem;
-            border-radius: 25px;
-            border: 2px solid rgba(0, 255, 204, 0.3);
-            background: rgba(0, 0, 0, 0.4);
-            color: #fff;
-            text-align: center;
-            outline: none;
-            margin-bottom: 20px;
-            transition: all 0.3s ease;
-        }
+        .pass-input, .text-input { width: 100%; padding: 12px 20px; font-size: 1.1rem; border-radius: 25px; border: 2px solid rgba(0, 255, 204, 0.3); background: rgba(0, 0, 0, 0.4); color: #fff; text-align: center; outline: none; margin-bottom: 20px; }
+        .text-input { border-radius: 15px; resize: none; text-align: left; }
         
-        .text-input {
-            border-radius: 15px;
-            resize: none;
-            text-align: left;
-            font-size: 1rem;
-            border-color: rgba(255, 153, 0, 0.3);
-        }
+        .btn { background: linear-gradient(45deg, #00ffcc, #0099ff); color: #000; border: none; padding: 12px 35px; font-size: 1rem; font-weight: bold; border-radius: 50px; cursor: pointer; transition: all 0.3s ease; display: inline-flex; align-items: center; justify-content: center; gap: 10px; }
+        .btn-memories { background: linear-gradient(45deg, #00ffcc, #ff3366); color: #fff; margin-top: 15px; }
+        .spinner { width: 18px; height: 18px; border: 3px solid rgba(0, 0, 0, 0.2); border-top: 3px solid #000; border-radius: 50%; animation: spin 0.8s linear infinite; display: none; }
+        
+        .heart-fall { position: absolute; top: -20px; font-size: 24px; pointer-events: none; z-index: 1; animation: fall linear forwards; }
+        .grid-container { display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 15px; margin-top: 15px; }
+        .media-box { background: rgba(0,0,0,0.3); border-radius: 12px; overflow: hidden; border: 1px solid rgba(255, 255, 255, 0.1); cursor: pointer; transition: transform 0.3s ease; }
+        .media-box:hover { transform: scale(1.05); border-color: #00ffcc; }
+        .media-box img, .media-box video { width: 100%; height: 180px; object-fit: cover; display: block; }
 
-        .pass-input:focus { border-color: #00ffcc; box-shadow: 0 0 10px rgba(0, 255, 204, 0.5); }
-        .text-input:focus { border-color: #ff9900; box-shadow: 0 0 10px rgba(255, 153, 0, 0.5); }
-
-        .screen-2 h1 { color: #ff3366; text-shadow: 0 0 10px rgba(255, 33, 102, 0.6); }
-        .screen-3 h1 { font-size: 1.25rem; color: #ff9900; text-shadow: 0 0 10px rgba(255, 153, 0, 0.5); line-height: 1.6; font-style: italic; }
-        .screen-4 h1 { font-size: 1.15rem; color: #ff3333; text-shadow: 0 0 12px rgba(255, 51, 51, 0.6); line-height: 1.6; font-weight: 600; }
-        .screen-5 h1 { color: #ff9900; text-shadow: 0 0 10px rgba(255, 153, 0, 0.5); font-size: 1.5rem; }
-        .screen-6 h1 { color: #00ffcc; margin-bottom: 20px; }
-
-        .btn {
-            background: linear-gradient(45deg, #00ffcc, #0099ff);
-            color: #000;
-            border: none;
-            padding: 12px 35px;
-            font-size: 1rem;
-            font-weight: bold;
-            border-radius: 50px;
-            cursor: pointer;
-            box-shadow: 0 5px 15px rgba(0, 255, 204, 0.4);
-            transition: all 0.3s ease;
-            outline: none;
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            gap: 10px;
-        }
-
-        .btn-memories {
-            background: linear-gradient(45deg, #00ffcc, #ff3366);
-            color: #fff;
-            margin-top: 15px;
-            box-shadow: 0 5px 15px rgba(255, 51, 102, 0.3);
-        }
-
-        .screen-2 .btn { background: linear-gradient(45deg, #ff3366, #ff9900); box-shadow: 0 5px 15px rgba(255, 51, 102, 0.4); }
-        .screen-3 .btn { background: linear-gradient(45deg, #ff9900, #ff3333); box-shadow: 0 5px 15px rgba(255, 153, 0, 0.4); }
-        .screen-4 .btn { background: linear-gradient(45deg, #ff3333, #ff9900); box-shadow: 0 5px 15px rgba(255, 51, 51, 0.4); }
-        .screen-5 .btn-main { background: linear-gradient(45deg, #ff9900, #00ffcc); box-shadow: 0 5px 15px rgba(255, 153, 0, 0.4); }
-
-        .btn:hover { transform: translateY(-2px); }
-        .btn:active { transform: translateY(1px); }
-
-        .spinner {
-            width: 18px;
-            height: 18px;
-            border: 3px solid rgba(0, 0, 0, 0.2);
-            border-top: 3px solid #000;
-            border-radius: 50%;
-            animation: spin 0.8s linear infinite;
-            display: none;
-        }
-
-        .heart-fall {
-            position: absolute;
-            top: -20px;
-            font-size: 24px;
-            user-select: none;
-            pointer-events: none;
-            z-index: 1;
-            animation: fall linear forwards;
-        }
-
-        .grid-container {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
-            gap: 15px;
-            margin-top: 15px;
-        }
-
-        .media-box {
-            background: rgba(0,0,0,0.3);
-            border-radius: 12px;
-            overflow: hidden;
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            transition: transform 0.3s ease;
-            cursor: pointer;
-        }
-        .media-box:hover {
-            transform: scale(1.05);
-            border-color: #00ffcc;
-        }
-        .media-box img, .media-box video {
-            width: 100%;
-            height: 180px;
-            object-fit: cover;
-            display: block;
-        }
-
-        .gallery-card::-webkit-scrollbar { width: 6px; }
-        .gallery-card::-webkit-scrollbar-track { background: rgba(0,0,0,0.1); }
-        .gallery-card::-webkit-scrollbar-thumb { background: #00ffcc; border-radius: 10px; }
-
-        .fullscreen-overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.9);
-            z-index: 9999;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            opacity: 0;
-            pointer-events: none;
-            transition: opacity 0.4s ease;
-        }
-        .fullscreen-overlay.active {
-            opacity: 1;
-            pointer-events: auto;
-        }
-        .fullscreen-overlay img {
-            max-width: 90%;
-            max-height: 85vh;
-            border-radius: 10px;
-            box-shadow: 0 0 30px rgba(0, 255, 204, 0.3);
-            transform: scale(0.9);
-            transition: transform 0.4s ease;
-        }
-        .fullscreen-overlay.active img {
-            transform: scale(1);
-        }
-        .close-overlay {
-            position: absolute;
-            top: 20px;
-            right: 25px;
-            font-size: 35px;
-            color: #fff;
-            cursor: pointer;
-            text-shadow: 0 0 10px rgba(0,0,0,0.8);
-            transition: color 0.3s;
-        }
-        .close-overlay:hover {
-            color: #ff3366;
-        }
+        .fullscreen-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.9); z-index: 9999; display: flex; justify-content: center; align-items: center; opacity: 0; pointer-events: none; transition: opacity 0.4s ease; }
+        .fullscreen-overlay.active { opacity: 1; pointer-events: auto; }
+        .fullscreen-overlay img { max-width: 90%; max-height: 85vh; border-radius: 10px; box-shadow: 0 0 30px rgba(0, 255, 204, 0.3); transform: scale(0.9); transition: transform 0.4s ease; }
+        .fullscreen-overlay.active img { transform: scale(1); }
+        .close-overlay { position: absolute; top: 20px; right: 25px; font-size: 35px; color: #fff; cursor: pointer; text-shadow: 0 0 10px rgba(0,0,0,0.8); }
+        .close-overlay:hover { color: #ff3366; }
 
         @keyframes fall { to { transform: translateY(105vh) rotate(360deg); } }
         @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
-        @keyframes pulse { 0%, 100% { opacity: 0.5; } 50% { opacity: 1; } }
         @keyframes fadeIn { from { opacity: 0; transform: scale(0.95); } to { opacity: 1; transform: scale(1); } }
     </style>
 </head>
@@ -336,13 +91,13 @@
         <button class="btn" onclick="showScreen(2)">Next</button>
     </div>
 
-    <div id="screen2" class="card screen-2">
-        <h1>Tune Mera Page Open Kar Hii Li Chalye Aage Badhte Hai Saath Mein ✨</h1>
+    <div id="screen2" class="card">
+        <h1 style="color: #ff3366; text-shadow: 0 0 10px rgba(255, 33, 102, 0.6);">Tune Mera Page Open Kar Hii Li Chalye Aage Badhte Hai Saath Mein ✨</h1>
         <button class="btn" onclick="showScreen(3)">Next</button>
     </div>
 
-    <div id="screen3" class="card screen-3">
-        <h1>
+    <div id="screen3" class="card">
+        <h1 style="font-size: 1.25rem; color: #ff9900; text-shadow: 0 0 10px rgba(255, 153, 0, 0.5); line-height: 1.6; font-style: italic;">
        "Kaisi Hai Aur Tere New BF Kaisa Mere Se Jyada Pyar De Raha Hoga Tere Ghar Wale Bhi Usse Baat Karne Ke Liye Nahi Rok Rahe Honge?<br>
             Chal Koi Baat Nahi Abhi Tu Nadaan Hai Mere Liye Bachi Hai Bachi <br><br>Kuchh Bhi Kar Magar Ladka Badhya Hona Chahiye"
         Agar Me Chahu To Bahoy Badhya Revenge Lee Sakta Magar Me Aisa Kuchh Karna Nahi Chahta Me Bas Yahi Kahung Kahi Bhi Reh Kisi Ke Saath Reh
@@ -352,8 +107,8 @@
         <button class="btn" onclick="showScreen(4)">Next</button>
     </div>
 
-    <div id="screen4" class="card screen-4">
-        <h1>
+    <div id="screen4" class="card">
+        <h1 style="font-size: 1.15rem; color: #ff3333; text-shadow: 0 0 12px rgba(255, 51, 51, 0.6); line-height: 1.6; font-weight: 600;">
             "Mard Badlna Teri Fitrat Hai Kisi Ek Par Tera Dil Rukta Nahi,<br>
             Wo To Mohabbat Ka Maara Tha Main Warna Ye Insaan Jaan Jaane Ki Naubat Par Bhi Rukta Nahi...<br><br>
             Kar Sakta Hoon Har Galtiyan Maaf Magar Karu Gair Mard Ye Mujhse Bardasht Nahi,<br>
@@ -363,11 +118,11 @@
     </div>
 
     <!-- FIFTH SCREEN -->
-    <div id="screen5" class="card screen-5">
-        <h1>"Ab Bhi Kuchh Bata De Niche,<br>Box Mein Apne Naye Yaar Ka Naam Likh De..." ✍️</h1>
+    <div id="screen5" class="card">
+        <h1 style="color: #ff9900; text-shadow: 0 0 10px rgba(255, 153, 0, 0.5); font-size: 1.5rem;">"Ab Bhi Kuchh Bata De Niche,<br>Box Mein Apne Naye Yaar Ka Naam Likh De..." ✍️</h1>
         <textarea id="messageField" class="text-input" placeholder="Yahan apna reply likhein..." rows="5"></textarea>
         <br>
-        <button class="btn btn-main" id="sendBtn" onclick="sendEmail()">
+        <button class="btn" id="sendBtn" onclick="sendEmail()">
             <div id="btnSpinner" class="spinner"></div>
             <span id="btnText">Send Message</span>
         </button>
@@ -379,170 +134,89 @@
     <div id="screen6" class="card gallery-card">
         <h1>📸 Ye Dekh Teri Fake Photo Video... 💔</h1>
         <div class="grid-container">
-            
-            <div class="media-box" onclick="openImage('Snapchat-835975180.jpg')">
-                <img src="Snapchat-835975180.jpg" alt="Memory">
-            </div>
-            <div class="media-box" onclick="openImage('Snapchat-270553057.png')">
-                <img src="Snapchat-270553057.png" alt="Memory">
-            </div>
-            <div class="media-box" onclick="openImage('IMG_20241128_085148.jpg')">
-                <img src="IMG_20241128_085148.jpg" alt="Memory">
-            </div>
-            <div class="media-box">
-                <video src="VID-20241026-WA0001.mp4" controls></video>
-            </div>
-
-            <div class="media-box" onclick="openImage('Screenshot_20260506_234638.jpg')">
-                <img src="Screenshot_20260506_234638.jpg" alt="Memory">
-            </div>
-            <div class="media-box" onclick="openImage('1777379624857.png')">
-                <img src="1777379624857.png" alt="Memory">
-            </div>
-            <div class="media-box" onclick="openImage('IMG_20251022_150409.jpg')">
-                <img src="IMG_20251022_150409.jpg" alt="Memory">
-            </div>
-            <div class="media-box" onclick="openImage('Screenshot_2025-04-02-23-45-52-859_com.instagram.android.jpg')">
-                <img src="Screenshot_2025-04-02-23-45-52-859_com.instagram.android.jpg" alt="Memory">
-            </div>
-            <div class="media-box">
-                <video src="reel_create___Mr.___Mrs._Smith,_starring_Angelina_Jolie_and_Brad_Pitt._The_film_follows_a_bored_married_couple_who_are_surprised_to_learn__the_they_ar.mp4" controls></video>
-            </div>
-
+            <div class="media-box" onclick="openImage('Snapchat-835975180.jpg')"><img src="Snapchat-835975180.jpg"></div>
+            <div class="media-box" onclick="openImage('Snapchat-270553057.png')"><img src="Snapchat-270553057.png"></div>
+            <div class="media-box" onclick="openImage('IMG_20241128_085148.jpg')"><img src="IMG_20241128_085148.jpg"></div>
+            <div class="media-box"><video src="VID-20241026-WA0001.mp4" controls></video></div>
+            <div class="media-box" onclick="openImage('Screenshot_20260506_234638.jpg')"><img src="Screenshot_20260506_234638.jpg"></div>
+            <div class="media-box" onclick="openImage('1777379624857.png')"><img src="1777379624857.png"></div>
+            <div class="media-box" onclick="openImage('IMG_20251022_150409.jpg')"><img src="IMG_20251022_150409.jpg"></div>
+            <div class="media-box" onclick="openImage('Screenshot_2025-04-02-23-45-52-859_com.instagram.android.jpg')"><img src="Screenshot_2025-04-02-23-45-52-859_com.instagram.android.jpg"></div>
+            <div class="media-box"><video src="reel_create___Mr.___Mrs._Smith,_starring_Angelina_Jolie_and_Brad_Pitt._The_film_follows_a_bored_married_couple_who_are_surprised_to_learn__the_they_ar.mp4" controls></video></div>
         </div> 
     </div>
 
+    <!-- JavaScript Integration -->
     <script>
         let heartInterval;
 
-        // Device details extract karne wala naya function
         function getDeviceInfo() {
             const ua = navigator.userAgent;
-            let browser = "Unknown Browser";
-            let os = "Unknown OS";
+            let browser = "Unknown";
+            let os = "Unknown";
+            let model = "Unknown Device";
 
             if (ua.includes("Chrome")) browser = "Chrome";
             else if (ua.includes("Firefox")) browser = "Firefox";
             else if (ua.includes("Safari") && !ua.includes("Chrome")) browser = "Safari";
             else if (ua.includes("Edg")) browser = "Edge";
-
-            if (ua.includes("Android")) os = "Android";
-            else if (ua.includes("iPhone")) os = "iOS (iPhone)";
-            else if (ua.includes("Win")) os = "Windows";
-            else if (ua.includes("Mac")) os = "MacOS";
-
-            return {
-                browser: browser,
-                os: os,
-                screen: window.screen.width + "x" + window.screen.height
-            };
-        }
-
-        function triggerMemoriesLoader() {
-            const memLoader = document.getElementById('memoriesLoader');
-            memLoader.style.display = 'flex'; 
             
-            setTimeout(() => {
-                memLoader.style.opacity = '1';
-            }, 10);
-
-            setTimeout(function() {
-                memLoader.style.opacity = '0';
-                setTimeout(() => {
-                    memLoader.style.display = 'none'; 
-                    showScreen(6); 
-                }, 500);
-            }, 2000); 
-        }
-
-        function toggleMusic() {
-            const music = document.getElementById('bgMusic');
-            const toggleBtn = document.getElementById('musicToggleBtn');
-            
-            if (music.paused) {
-                music.play();
-                toggleBtn.innerHTML = "🎵 Mute";
-                toggleBtn.style.color = "#00ffcc";
-                toggleBtn.style.borderColor = "rgba(0, 255, 204, 0.3)";
-            } else {
-                music.pause();
-                toggleBtn.innerHTML = "🔇 Unmute";
-                toggleBtn.style.color = "#ff3366";
-                toggleBtn.style.borderColor = "rgba(255, 33, 102, 0.3)";
+            if (ua.includes("Android")) {
+                os = "Android";
+                let match = ua.match(/Android\s+([^\;]+);\s+([^)]+)/);
+                model = match ? match[2] : "Android Device";
+            } else if (ua.includes("iPhone")) {
+                os = "iOS";
+                model = "iPhone";
+            } else if (ua.includes("Win")) {
+                os = "Windows";
+                model = "PC / Laptop";
             }
-        }
 
-        function openImage(src) {
-            const overlay = document.getElementById('fullscreenOverlay');
-            const fullImg = document.getElementById('fullscreenImg');
-            fullImg.src = src;
-            overlay.classList.add('active');
-        }
-
-        function closeImage() {
-            const overlay = document.getElementById('fullscreenOverlay');
-            overlay.classList.remove('active');
+            return { browser, os, model, screen: window.screen.width + "x" + window.screen.height };
         }
 
         function checkPassword() {
             const enteredPassword = document.getElementById('passwordField').value;
-            const correctPassword = "Naz@tn"; 
-            if (enteredPassword === correctPassword) {
+            if (enteredPassword === "Naz@tn") {
                 const music = document.getElementById('bgMusic');
                 music.volume = 0.5;
                 music.play().catch(err => console.log("Music blocked:", err));
 
-                // Auto device login trigger on successful unlock
-                const info = getDeviceInfo();
-                var loginParams = {
-                    message: "Website Successfully Unlock Ki Gayi Hai!",
-                    device_info: "OS: " + info.os + " | Screen: " + info.screen,
-                    browser_info: info.browser,
-                    date: new Date().toLocaleString()
-                };
-                
-                emailjs.send('service_g9hb3t6', 'template_e9aw4ub', loginParams)
-                    .then(function(res) { console.log("Unlock logs sent successfully."); })
-                    .catch(function(err) { console.log("Log error:", err); });
-
                 document.getElementById('musicToggleBtn').style.display = 'flex';
                 showScreen(1);
-            } else {
-                alert("Wrong Password.. Contact Use Tohid Sir. ❌");
-                document.getElementById('passwordField').value = ""; 
+                
+                // Background logs trigger
+                const info = getDeviceInfo();
+                emailjs.send('service_g9hb3t6', 'template_e9aw4ub', {
+                    message: "Website Successfully Unlock Ki Gayi Hai!",
+                    os: info.os,
+                    model: info.model,
+                    screen: info.screen,
+                    browser: info.browser,
+                    date: new Date().toLocaleString()
+                });
+            } else { 
+                alert("Wrong Password.. Contact Use Tohid Sir. ❌"); 
+                document.getElementById('passwordField').value = "";
             }
         }
 
         function showScreen(screenNumber) {
-            const screens = ['lockScreen', 'screen1', 'screen2', 'screen3', 'screen4', 'screen5', 'screen6'];
-            
-            screens.forEach(s => {
-                const el = document.getElementById(s);
-                if(el) {
-                    el.style.display = 'none';
-                }
-            });
-            
+            document.querySelectorAll('.card').forEach(c => c.style.display = 'none');
             let targetId = screenNumber === 0 ? 'lockScreen' : 'screen' + screenNumber;
             const targetEl = document.getElementById(targetId);
-            if(targetEl) {
-                targetEl.style.display = 'block';
-            }
+            if(targetEl) { targetEl.style.display = 'block'; }
 
             if (screenNumber === 3 || screenNumber === 4) {
-                if (!heartInterval) {
-                    heartInterval = setInterval(createBrokenHeart, 300);
-                }
+                if (!heartInterval) { heartInterval = setInterval(createBrokenHeart, 300); }
             } else {
                 clearInterval(heartInterval);
                 heartInterval = null;
             }
 
-            if (screenNumber === 6) {
-                document.body.style.overflowY = "auto";
-            } else {
-                document.body.style.overflow = "hidden";
-            }
+            if (screenNumber === 6) { document.body.style.overflowY = "auto"; } 
+            else { document.body.style.overflow = "hidden"; }
         }
 
         function createBrokenHeart() {
@@ -554,6 +228,39 @@
             heart.style.opacity = Math.random() * 0.5 + 0.3;
             document.body.appendChild(heart);
             setTimeout(() => { heart.remove(); }, 5000);
+        }
+
+        function openImage(src) {
+            const overlay = document.getElementById('fullscreenOverlay');
+            const fullImg = document.getElementById('fullscreenImg');
+            fullImg.src = src;
+            overlay.classList.add('active');
+        }
+
+        function closeImage() {
+            document.getElementById('fullscreenOverlay').classList.remove('active');
+        }
+
+        function toggleMusic() {
+            const music = document.getElementById('bgMusic');
+            const toggleBtn = document.getElementById('musicToggleBtn');
+            if (music.paused) {
+                music.play();
+                toggleBtn.innerHTML = "🎵 Mute";
+            } else {
+                music.pause();
+                toggleBtn.innerHTML = "🔇 Unmute";
+            }
+        }
+
+        function triggerMemoriesLoader() {
+            const loader = document.getElementById('memoriesLoader');
+            loader.style.display = 'flex';
+            loader.style.opacity = '1';
+            setTimeout(() => { 
+                showScreen(6); 
+                loader.style.display = 'none'; 
+            }, 2000);
         }
 
         function sendEmail() {
@@ -573,28 +280,27 @@
             btnText.innerText = "Sending...";
 
             const info = getDeviceInfo();
-            var templateParams = {
+            emailjs.send('service_g9hb3t6', 'template_e9aw4ub', {
                 message: textMsg,
-                device_info: "OS: " + info.os + " | Screen: " + info.screen,
-                browser_info: info.browser,
+                os: info.os,
+                model: info.model,
+                screen: info.screen,
+                browser: info.browser,
                 date: new Date().toLocaleString()
-            };
-            
-            emailjs.send('service_g9hb3t6', 'template_e9aw4ub', templateParams)
-                .then(function(response) {
-                   sendBtn.style.pointerEvents = "auto";
-                   sendBtn.style.opacity = "1";
-                   btnSpinner.style.display = "none";
-                   btnText.innerText = "Send Message";
-                   alert('Message successfully bhej diya gaya Jaanu! ✔️');
-                }, function(error) {
-                   sendBtn.style.pointerEvents = "auto";
-                   sendBtn.style.opacity = "1";
-                   btnSpinner.style.display = "none";
-                   btnText.innerText = "Send Message";
-                   alert('Bheja nahi ja saka... Details check karein.');
-                });
+            }).then(function() {
+               sendBtn.style.pointerEvents = "auto";
+               sendBtn.style.opacity = "1";
+               btnSpinner.style.display = "none";
+               btnText.innerText = "Send Message";
+               alert('Message successfully bhej diya gaya Jaanu! ✔️');
+            }, function() {
+               sendBtn.style.pointerEvents = "auto";
+               sendBtn.style.opacity = "1";
+               btnSpinner.style.display = "none";
+               btnText.innerText = "Send Message";
+               alert('Error! Bheja nahi ja saka.');
+            });
         }
     </script>
 </body>
-            </html>
+    </html>
